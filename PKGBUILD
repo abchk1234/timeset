@@ -4,7 +4,7 @@ pkgname=timeset
 pkgver=1.1
 pkgrel=1
 pkgdesc="A script for managing system date and time."
-url="http://forum.manjaro.org/index.php?topic=7067.0"
+url="https://github.com/aaditya-gnulinux/timeset"
 arch=('any')
 license=('GPL')
 depends=('bash')
