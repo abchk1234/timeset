@@ -9,8 +9,8 @@ arch=('any')
 license=('GPL')
 depends=('bash' 'sudo')
 optdepends=('ntp')
-source=("https://www.dropbox.com/s/bis3fjab8rm7nry/${pkgname}-${pkgver}.tar.gz")
-md5sums=('2e02d3a4f42ed015caaa28a689cd1e60')
+source=("https://github.com/aaditya-gnulinux/timeset/blob/master/${pkgname}-${pkgver}.tar.gz")
+md5sums=('32969e219d2740a420964cf82f1a0f4c')
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   install -Dm755 "${pkgname}-${pkgver}" "${pkgdir}/usr/bin/${pkgname}"
