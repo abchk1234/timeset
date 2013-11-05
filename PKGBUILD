@@ -1,7 +1,7 @@
 # Maintainer: aaditya          aaditya_gnulinux@zoho.com
 
 pkgname=timeset
-pkgver=1.1
+pkgver=1.2
 pkgrel=1
 pkgdesc="A script for managing system date and time."
 url="https://github.com/aaditya-gnulinux/timeset"
