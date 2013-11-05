@@ -13,7 +13,7 @@ source=("https://github.com/aaditya-gnulinux/timeset/blob/master/${pkgname}-${pk
 md5sums=('32969e219d2740a420964cf82f1a0f4c')
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  install -Dm755 "${pkgname}-${pkgver}" "${pkgdir}/usr/bin/${pkgname}"
+  install -Dm755 "${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
 }
 
 # vim:set ts=2 sw=2 et:
