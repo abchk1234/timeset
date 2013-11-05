@@ -9,7 +9,7 @@ arch=('any')
 license=('GPL')
 depends=('bash' 'sudo')
 optdepends=('ntp')
-source=("https://github.com/aaditya-gnulinux/timeset/blob/master/${pkgname}-${pkgver}.tar.gz")
+source=("http://sourceforge.net/projects/timeset/files/${pkgname}-${pkgver}.tar.gz/download")
 md5sums=('32969e219d2740a420964cf82f1a0f4c')
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
