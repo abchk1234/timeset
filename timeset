@@ -45,14 +45,14 @@ clear
       1) echo -e "\e[1;37mCurrent Date and Time\e[0m"; timedatectl status; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read;;
       2) echo -e "\e[1;32mTimeZones\e[0m";timedatectl list-timezones ;;
       3) echo -ne "\e[1;37mEnter the TimeZone (It should be like Continent/City):\e[0m " ; read tz ; timedatectl set-timezone $tz ;echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
-      4) echo -e "\e[1;32mSynchronizing time from the Network. \n\e[1;32mNTP should be installed for this to work.\e[0m"; printf "Please wait a few moments while the time is being synchronised..\n"; sudo ntpdate -u pool.ntp.org; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
+      4) echo -e "\e[1;32mSynchronizing time from the Network. \n\e[1;32mNTP should be installed for this to work.\e[0m"; printf "Please wait a few moments while the time is being synchronised..\n"; ntpdate -u pool.ntp.org; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
       5) echo -ne "\e[1;32mEnter 1 to enable NTP and 0 to disable NTP :\e[0m "; read ntch; timedatectl set-ntp $ntch; echo -e "\n\e[1;37mPress Enter. . ."; read ;;
-      6) echo -e "\e[1;32mEnabling NTP at startup...\e[0m "; sudo systemctl enable ntpd; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
-      7) echo -e "\e[1;32mDisabling NTP at startup...\e[0m "; sudo systemctl disable ntpd; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
+      6) echo -e "\e[1;32mEnabling NTP at startup...\e[0m "; systemctl enable ntpd; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
+      7) echo -e "\e[1;32mDisabling NTP at startup...\e[0m "; systemctl disable ntpd; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
       8) echo -ne "\e[1;32mEnter 0 to set Hardware clock to UTC and 1 to set it to Local time :\e[0m "; read rtcch; timedatectl set-local-rtc $rtcch; echo -e "\n\e[1;37mPress Enter. . ."; read ;;
-      9) sudo hwclock -D ; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
-      10) sudo hwclock -w ; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
-      11) sudo hwclock -s ; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
+      9) hwclock -D ; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
+      10) hwclock -w ; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
+      11) hwclock -s ; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
       12) echo -ne "\e[1;32m\e[1;32mEnter the time.\nThe time may be specified in the format 2012-10-30 18:17:16 \nOnly hh:mm can also be used.\e[0m \n\e[1;37mEnter time:\e[0m "; read time; timedatectl set-time $time; echo -e "\n\e[1;37mPress Enter. . .\e[0m"; read ;;
       q) printf "Thanks for using this script!\n"; exit 0 ;;
       *) echo -e "\e[1;31mOpps!!! Please a valid choice!\e[0m ";#!/bin/bash
