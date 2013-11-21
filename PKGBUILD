@@ -2,7 +2,6 @@
 
 pkgname=timeset
 pkgver=1.3
-_git=71babae212156d1f414790caa5c1b6ff028e528f
 pkgrel=1
 pkgdesc="A script for managing system date and time."
 url="http://git.manjaro.org/aadityabagga/timeset/"
@@ -10,8 +9,8 @@ arch=('any')
 license=('GPL')
 depends=('bash' 'sudo')
 optdepends=('ntp')
-source=("http://git.manjaro.org/aadityabagga/timeset/raw/$_git/timeset")
-sha1sums=('3a5a4862534a0e9d500b5a3513159e8bb9348b05')
+source=("http://git.manjaro.org/aadityabagga/timeset/repository/archive")
+sha1sums=('SKIP')
 
 package() {
   cd "${srcdir}"
