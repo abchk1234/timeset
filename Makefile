@@ -16,6 +16,8 @@ install: all
 	$(INSTALL) -d $(DESTDIR)$(icons)
 	$(INSTALL) -d $(DESTDIR)$(deskdir)
 	$(INSTALL) -m755 timeset $(DESTDIR)$(bindir)
+	$(INSTALL) -m644 timeset.png $(DESTDIR)$(icons)
+	$(INSTALL) -m644 timeset.desktop $(DESTDIR)$(deskdir)
 	for file in po/*.mo; \
 	do \
 		lang=$$(echo $$file | $(SED) -e 's#.*/\([^/]\+\).mo#\1#'); \
