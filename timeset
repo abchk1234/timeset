@@ -1,5 +1,5 @@
 #!/bin/bash
-##timeset- A script-utility to configure the system date and time on Manjaro/Arch Linux(or any Linux distribution that uses systemd)
+##timeset- A script to configure the system date and time on Manjaro/Arch Linux(or any Linux distribution that uses systemd)
 ##Author- Aaditya Bagga
 
 # Gettext internationalization
@@ -24,15 +24,15 @@ echo "$(gettext 'Must be root to run this script')"
   exit $E_NOTROOT
 fi
 
+# Menu
 
-#The Menu
-ent=echo -e "\n$(gettext 'Press Enter. . .')"
+ent=`echo -e $White "\n$(gettext 'Press Enter. . .')" $CLR`
 
 while :
- do
-clear
+do
+    clear
     echo "------------------------------------------------------------------------------"
-    echo -e $Blue "$(gettext ' TimeSet(tings) - Configure the system date and time')" $CLR
+    echo -e $Blue " $(gettext 'TimeSet(tings) - Configure the system date and time')" $CLR
     echo "------------------------------------------------------------------------------"
     echo ""
     echo -e $Yel "[1] " $White "$(gettext 'Show current date and time configuration')" $CLR
@@ -51,21 +51,19 @@ clear
     echo -ne $Green "$(gettext 'Enter your choice') [1-10,q]:" $CLR
     read choice
     case $choice in
-      1) echo -e "\e[1;37mCurrent date and time\e[0m"; timedatectl status; $ent ; read;;
-      2) echo -e "\e[1;32mTimezones\e[0m";timedatectl list-timezones ;;
-      3) echo -ne "\e[1;37mEnter the timezone (It should be like Continent/City):\e[0m " ; read tz ; timedatectl set-timezone $tz ; $ent ; read ;;
-      4) echo -e "\e[1;32mSynchronizing time from the network. \n\e[1;32mNTP should be installed for this to work.\e[0m"; printf "Please wait a few moments while the time is being synchronised..\n\n"; ntpdate -u pool.ntp.org; $ent ; read ;;
-      5) echo -ne "\e[1;32m\nIf NTP is enabled the system will periodically synchronize time from the network.\e[0m\n\e[1;37mEnter 1 to enable NTP and 0 to disable NTP :\e[0m "; read ntch; timedatectl set-ntp $ntch; $ent; read ;;
-      6) echo -ne "\e[1;37mEnter 0 to set hardware clock to UTC and 1 to set it to local time :\e[0m "; read rtcch; timedatectl set-local-rtc $rtcch; $ent; read ;;
-      7) hwclock -D ; $ent; read ;;
-      8) hwclock -w ; $ent; read ;;
-      9) hwclock -s ; $ent; read ;;
-      10) echo -ne "\e[1;32m\e[1;32mEnter the time.\nThe time may be specified in the format 2012-10-30 18:17:16 \nOnly hh:mm can also be used.\e[0m \n\e[1;37mEnter time:\e[0m "; read time; timedatectl set-time $time; $ent; read ;;
+      1) echo -e $White "$(gettext 'Current date and time')" $CLR ; timedatectl status; echo $ent ; read;;
+      2) echo -e $White "$(gettext 'Timezones')" $CLR ; timedatectl list-timezones ;;
+      3) echo -ne $White "$(gettext 'Enter the timezone (It should be like Continent/City):')" $CLR ; read tz ; timedatectl set-timezone $tz ; echo $ent ; read ;;
+      4) echo -e $Green "$(gettext 'Synchronizing time from the network')\n $(gettext 'NTP should be installed for this to work.')\n" $CLR "$(gettext 'Please wait a few moments while the time is being synchronised..')\n" ; ntpdate -u 0.pool.ntp.org; echo $ent ; read ;;
+      5) echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $White "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR ; read ntch; timedatectl set-ntp $ntch; echo $ent; read ;;
+      6) echo -ne $White "$(gettext 'Enter 0 to set hardware clock to UTC and 1 to set it to local time :')" $CLR ; read rtcch; timedatectl set-local-rtc $rtcch; echo $ent; read ;;
+      7) hwclock -D ; echo $ent; read ;;
+      8) hwclock -w ; echo $ent; read ;;
+      9) hwclock -s ; echo $ent; read ;;
+      10) echo -ne $Green "$(gettext 'Enter the time.')\n $(gettext 'The time may be specified in the format 2012-10-30 18:17:16')\n $(gettext 'Only hh:mm can also be used.')" $CLR "\n" $White "Enter the time: " $CLR ; read time; timedatectl set-time $time; echo $ent; read ;;
       q) exit 0 ;;
-      *) echo -e "\e[1;31mOops!!! Please a valid choice!\e[0m ";#!/bin/bash
-         echo -e "\e[1;37mPress Enter. . .\e[0m" ; read ;;
- esac
+      *) echo -e $Red "$(gettext 'Oops!!! Please a valid choice!')" $CLR ;
+         echo $ent ; read ;;
+    esac
 done
 exit 0
-
-

@@ -1,0 +1,77 @@
+# NAME_PROJECT POT Template File.
+# Copyright (C) 2013  YOUR_NAME
+# This file is distributed under the same license as the PACKAGE package.
+# YOUR_NAME <ADR_MAIL>, 2013.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: NAME_PROJECT (version: XXX)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-23 23:15+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: YOUR_NAME <ADR_MAIL>\n"
+"Language-Team: URL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+
+#: timeset.sh:23
+msgid "Must be root to run this script"
+msgstr "Deve essere root per eseguire questo script"
+
+#: timeset.sh:29
+msgid "Press Enter. . ."
+msgstr "Premere Invio . "
+
+#: timeset.sh:35
+msgid " TimeSet(tings) - Configure the system date and time"
+msgstr "TimeSet ( Settings ) - Configurare la data e l' ora del sistema"
+
+#: timeset.sh:38
+msgid "Show current date and time configuration"
+msgstr "Mostra data attuale e Time Configuration"
+
+#: timeset.sh:39
+msgid "Show known timezones (press q to return to menu)"
+msgstr "Mostra Noto Timezones (premere q per tornare al menu )"
+
+#: timeset.sh:40
+msgid "Set system timezone"
+msgstr "Imposta fuso orario di sistema"
+
+#: timeset.sh:41
+msgid "Synchronize time from the network (NTP)"
+msgstr "Sincronizzare l'ora dalla rete ( NTP )"
+
+#: timeset.sh:42
+msgid "Choose whether NTP is enabled or not"
+msgstr "Controllare se si utilizza NTP o meno"
+
+#: timeset.sh:43
+msgid "Control whether hardware clock is in local time or not"
+msgstr "Controllare se Hardware Clock è in ora locale o non"
+
+#: timeset.sh:44
+msgid "Read the time from the hardware clock"
+msgstr "Leggere il tempo dal clock hardware"
+
+#: timeset.sh:45
+msgid "Synchronize hardware clock to system time"
+msgstr "Sincronizzare Hardware dell'orologio sull'ora di sistema"
+
+#: timeset.sh:46
+msgid "Synchronize system time to hardware clock"
+msgstr "Sincronizzare ora del sistema da Hardware Clock"
+
+#: timeset.sh:47
+msgid "Set system time manually"
+msgstr "Ora Impostazione sistema manualmente"
+
+#: timeset.sh:49
+msgid "Exit/Quit"
+msgstr "Exit / Esci"
+
+#: timeset.sh:51
+msgid "Enter your choice"
+msgstr "Inserisci la tua scelta"

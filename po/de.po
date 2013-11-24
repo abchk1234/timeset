@@ -1,0 +1,78 @@
+# NAME_PROJECT POT Template File.
+# Copyright (C) 2013  YOUR_NAME
+# This file is distributed under the same license as the PACKAGE package.
+# YOUR_NAME <ADR_MAIL>, 2013.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: NAME_PROJECT (version: XXX)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-23 23:15+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: YOUR_NAME <ADR_MAIL>\n"
+"Language-Team: URL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+
+#: timeset.sh:23
+msgid "Must be root to run this script"
+msgstr "Muss Wurzel dieses Skript ausgeführt werden"
+
+#: timeset.sh:29
+msgid "Press Enter. . ."
+msgstr "Drücken Sie die Eingabetaste . "
+
+#: timeset.sh:35
+msgid " TimeSet(tings) - Configure the system date and time"
+msgstr ""
+"TimeSet ( Einstellungen) - Konfigurieren Sie das System Datum und Uhrzeit"
+
+#: timeset.sh:38
+msgid "Show current date and time configuration"
+msgstr "Anzeigen Aktuelles Datum und Uhrzeit Konfiguration"
+
+#: timeset.sh:39
+msgid "Show known timezones (press q to return to menu)"
+msgstr "Zeitzonen anzeigen Bekannte (drücken Sie q zurück zum Menü )"
+
+#: timeset.sh:40
+msgid "Set system timezone"
+msgstr "Set System Zeitzone"
+
+#: timeset.sh:41
+msgid "Synchronize time from the network (NTP)"
+msgstr "Synchronisieren Zeit von der Network ( NTP)"
+
+#: timeset.sh:42
+msgid "Choose whether NTP is enabled or not"
+msgstr "Kontrollieren Sie , ob NTP benutzt wird oder nicht"
+
+#: timeset.sh:43
+msgid "Control whether hardware clock is in local time or not"
+msgstr "Steuern, ob Hardware-Uhr ist in Lokale Zeit oder nicht"
+
+#: timeset.sh:44
+msgid "Read the time from the hardware clock"
+msgstr "Lesen Sie die Zeit von der Hardware-Uhr"
+
+#: timeset.sh:45
+msgid "Synchronize hardware clock to system time"
+msgstr "Synchronisieren Hardware-Uhr , um System Time"
+
+#: timeset.sh:46
+msgid "Synchronize system time to hardware clock"
+msgstr "Synchronisieren der Systemzeit von Hardware-Uhr"
+
+#: timeset.sh:47
+msgid "Set system time manually"
+msgstr "Setzen der Systemzeit manuell"
+
+#: timeset.sh:49
+msgid "Exit/Quit"
+msgstr "Exit / Beenden"
+
+#: timeset.sh:51
+msgid "Enter your choice"
+msgstr "Geben Sie Ihre Wahl"

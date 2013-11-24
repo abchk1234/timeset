@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=TimeSet
+GenericName=A shell-gui for managing system date and time.
+Icon=/usr/share/pixmaps/timeset.png
+Exec=pkexec timeset
+Type=Application
+Categories=System;
+Encoding=UTF-8
+Terminal=true
+StartupNotify=false
