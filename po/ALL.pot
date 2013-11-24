@@ -2,6 +2,7 @@
 # timeset- A script to configure the system date and time.
 # This file is distributed under the same license as the PACKAGE package.
 # Aaditya Bagga aaditya_gnulinux@zoho.com, 2013.
+# Idea for translations by Claude Bulin aka xcfaudio at gmail dot com
 #
 #, fuzzy
 msgid ""
@@ -26,7 +27,7 @@ msgid "Press Enter. . ."
 msgstr ""
 
 #: timeset:35
-msgid "Configure the system date and time"
+msgid " TimeSet(tings) - Configure the system date and time"
 msgstr ""
 
 #: timeset:38
