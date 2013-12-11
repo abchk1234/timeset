@@ -3,7 +3,7 @@
 pkgname=timeset
 pkgver=1.4
 pkgrel=3
-pkgdesc="A script for managing system date and time."
+pkgdesc="A shell-gui for managing system date and time."
 url="http://git.manjaro.org/aadityabagga/timeset/"
 arch=('any')
 license=('GPL')
