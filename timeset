@@ -40,7 +40,7 @@ do
     echo -e $Yel "[3] " $White "$(gettext 'Set system timezone')" $CLR
     echo -e $Yel "[4] " $White "$(gettext 'Synchronize time from the network (NTP)')" $CLR
     echo -e $Yel "[5] " $White "$(gettext 'Choose whether NTP is enabled or not')" $CLR 
-    echo -e $Yel "[6] " $White "$(gettext 'Control whether hardware clock is in local time or not')" $CLR
+    echo -e $Yel "[6] " $White "$(gettext 'Control whether hardware clock is in UTC or local time')" $CLR
     echo -e $Yel "[7] " $White "$(gettext 'Read the time from the hardware clock')" $CLR
     echo -e $Yel "[8] " $White "$(gettext 'Synchronize hardware clock to system time')" $CLR
     echo -e $Yel "[9] " $White "$(gettext 'Synchronize system time to hardware clock')" $CLR
