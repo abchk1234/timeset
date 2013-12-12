@@ -7,3 +7,6 @@ A Bash script for managing system date and time.
 <li>systemd</li>
 <li>ntp (optional)</li>
 </ul>
+
+##Usage
+$ sudo ./timeset
