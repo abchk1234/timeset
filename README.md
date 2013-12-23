@@ -1,12 +1,15 @@
 A Bash script for managing system date and time.
 
-<img src="http://i1198.photobucket.com/albums/aa447/chk1827/timeset-11.png"/>
-
 ##Requires
 <ul>
 <li>systemd</li>
 <li>ntp (optional)</li>
 </ul>
 
+##Installation
+sudo make install
+
+For Arch Linux users check out https://aur.archlinux.org/packages/timeset/
+
 ##Usage
-$ sudo ./timeset
+$ sudo timeset
