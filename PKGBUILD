@@ -1,9 +1,10 @@
 # Maintainer: aaditya  aaditya_gnulinux@zoho.com
+# Contributor: Claude Bulin <xcfaudio[at]gmail[dot]com>
 
 pkgname=timeset
-pkgver=1.4
-pkgrel=3
-pkgdesc="A shell-gui for managing system date and time."
+pkgver=1.5
+pkgrel=1
+pkgdesc="A script for managing system date and time."
 url="http://git.manjaro.org/aadityabagga/timeset/"
 arch=('any')
 license=('GPL')
