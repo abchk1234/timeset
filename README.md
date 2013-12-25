@@ -15,4 +15,4 @@ For Arch Linux users check out https://aur.archlinux.org/packages/timeset/
 ##Usage
 Run the script as root.
 
-# timeset
+ # timeset
