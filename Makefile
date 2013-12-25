@@ -1,5 +1,5 @@
 SHELL = /bin/bash
-INSTALL = /usr/bin/install -c
+INSTALL = /usr/bin/install
 MSGFMT = /usr/bin/msgfmt
 SED = /bin/sed
 DESTDIR =

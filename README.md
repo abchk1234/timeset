@@ -2,7 +2,6 @@ A Bash script for managing system date and time.
 
 ##Requires
 <ul>
-<li>systemd</li>
 <li>ntp (optional)</li>
 </ul>
 
@@ -14,4 +13,6 @@ sudo make install
 For Arch Linux users check out https://aur.archlinux.org/packages/timeset/
 
 ##Usage
-$ sudo timeset
+Run the script as root.
+
+# timeset
