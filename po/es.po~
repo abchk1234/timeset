@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NAME_PROJECT (version: XXX)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-26 11:30+0530\n"
+"POT-Creation-Date: 2013-11-24 12:05+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: YOUR_NAME <ADR_MAIL>\n"
 "Language-Team: URL\n"
@@ -16,149 +16,119 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: timeset:36
+#: timeset:23
 msgid "Must be root to run this script"
 msgstr "Debe ser root para ejecutar este script"
 
-#: timeset:56 timeset:74
-msgid "Timezone set to"
-msgstr ""
-
-#: timeset:76
-msgid "Wrong timezone entered."
-msgstr ""
-
-#: timeset:83
-msgid "Time not entered properly."
-msgstr ""
-
-#: timeset:90
-#, fuzzy
-msgid "Press Enter..."
+#: timeset:29
+msgid "Press Enter. . ."
 msgstr "Pulse Intro. "
 
-#: timeset:96
-#, fuzzy
-msgid "TimeSet(tings) - Configure the system date and time"
+#: timeset:35
+msgid " TimeSet(tings) - Configure the system date and time"
 msgstr "TimeSet ( ajustes ) - Configurar la fecha y hora del sistema"
 
-#: timeset:99
+#: timeset:38
 msgid "Show current date and time configuration"
 msgstr "Mostrar fecha actual y la configuración de la hora"
 
-#: timeset:100
+#: timeset:39
 msgid "Show known timezones (press q to return to menu)"
 msgstr "Mostrar Conocido Timezones (pulse q para volver al menú )"
 
-#: timeset:101
+#: timeset:40
 msgid "Set system timezone"
 msgstr "Establecer Zona Horaria del Sistema"
 
-#: timeset:102
+#: timeset:41
 msgid "Synchronize time from the network (NTP)"
 msgstr "Sincronizar hora de la red (NTP )"
 
-#: timeset:103
+#: timeset:42
 msgid "Choose whether NTP is enabled or not"
 msgstr "Controlar si se usa NTP o no"
 
-#: timeset:104
-#, fuzzy
-msgid "Control whether hardware clock is in UTC or local time"
+#: timeset:43
+msgid "Control whether hardware clock is in local time or not"
 msgstr "Controlar si reloj de hardware está en hora local o no"
 
-#: timeset:105
-#, fuzzy
-msgid "Show the time and settings for the hardware clock"
+#: timeset:44
+msgid "Read the time from the hardware clock"
 msgstr "Leer la hora del reloj de hardware"
 
-#: timeset:106
+#: timeset:45
 msgid "Synchronize hardware clock to system time"
 msgstr "Sincronizar reloj de hardware a la hora del sistema"
 
-#: timeset:107
+#: timeset:46
 msgid "Synchronize system time to hardware clock"
 msgstr "Sincronizar la hora del sistema de reloj de hardware"
 
-#: timeset:108
+#: timeset:47
 msgid "Set system time manually"
 msgstr "Tiempo de grupos de sistemas manualmente"
 
-#: timeset:110
+#: timeset:49
 msgid "Exit/Quit"
 msgstr "Exit / Salir"
 
-#: timeset:112
+#: timeset:51
 msgid "Enter your choice"
 msgstr "Ingrese su elección"
 
-#: timeset:119
+#: timeset:54
 #, fuzzy
 msgid "Current date and time"
 msgstr "Mostrar fecha actual y la configuración de la hora"
 
-#: timeset:121
+#: timeset:55
+msgid "Timezones"
+msgstr ""
+
+#: timeset:56
 msgid "Enter the timezone (It should be like Continent/City):"
 msgstr ""
 
-#: timeset:122
+#: timeset:57
 #, fuzzy
 msgid "Synchronizing time from the network"
 msgstr "Sincronizar hora de la red (NTP )"
 
-#: timeset:122
+#: timeset:57
 msgid "NTP should be installed for this to work."
 msgstr ""
 
-#: timeset:122
-msgid "Please wait a few moments while the time is being synchronised..."
+#: timeset:57
+msgid "Please wait a few moments while the time is being synchronised.."
 msgstr ""
 
-#: timeset:123
+#: timeset:58
 msgid ""
 "If NTP is enabled the system will periodically synchronize time from the "
 "network."
 msgstr ""
 
-#: timeset:123
+#: timeset:58
 msgid "Enter 1 to enable NTP and 0 to disable NTP"
 msgstr ""
 
-#: timeset:123
-msgid "For this to work the ntp daemon (ntpd) needs to be installed."
-msgstr ""
-
-#: timeset:123
-msgid ""
-"Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then "
-"enable the ntp daemon to start at boot."
-msgstr ""
-
-#: timeset:123
-msgid "This feature is distribution specific and not handled by this script."
-msgstr ""
-
-#: timeset:124
+#: timeset:59
 #, fuzzy
 msgid "Enter 0 to set hardware clock to UTC and 1 to set it to local time :"
 msgstr "Controlar si reloj de hardware está en hora local o no"
 
-#: timeset:128
+#: timeset:63
 msgid "Enter the time."
 msgstr ""
 
-#: timeset:128
+#: timeset:63
 msgid "The time may be specified in the format 2012-10-30 18:17:16"
 msgstr ""
 
-#: timeset:128
+#: timeset:63
 msgid "Only hh:mm can also be used."
 msgstr ""
 
-#: timeset:128
-msgid "Enter the time:"
-msgstr ""
-
-#: timeset:131
+#: timeset:65
 msgid "Oops!!! Please a valid choice!"
 msgstr ""
