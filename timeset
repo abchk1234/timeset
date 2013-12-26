@@ -104,7 +104,7 @@ do
     echo -e $Yel "[6]" $CLR $BOLD "$(gettext 'Control whether hardware clock is in UTC or local time')" $CLR
     echo -e $Yel "[7]" $CLR $BOLD "$(gettext 'Show the time and settings for the hardware clock')" $CLR
     echo -e $Yel "[8]" $CLR $BOLD "$(gettext 'Synchronize hardware clock to system time')" $CLR
-    echo -e $Yel "[9]" $CLR $BOLD "$(gettext 'Synchronize system time to hardware clock')" $CLR
+    echo -e $Yel "[9]" $CLR $BOLD "$(gettext 'Synchronize system time to hardware clock time')" $CLR
     echo -e $Yel "[10]" $CLR$BOLD "$(gettext 'Set system time manually')" $CLR
     echo 
     echo -e $Red "[q] $(gettext 'Exit/Quit')\n" $CLR
@@ -121,7 +121,7 @@ do
       3) echo -ne $BOLD "$(gettext 'Enter the timezone (It should be like Continent/City):')" $CLR ; read -e tz ; set_timezone $tz ; echo $ent ; read ;;
       4) echo -e $Green "$(gettext 'Synchronizing time from the network')\n $(gettext 'NTP should be installed for this to work.')\n" $CLR "$(gettext 'Please wait a few moments while the time is being synchronised...')" ; ntpdate -u 0.pool.ntp.org ; echo $ent ; read ;;
       5) if [ $sysd ]; then echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR ; read ntch; timedatectl set-ntp $ntch; else echo -e "$(gettext 'For this to work the ntp daemon (ntpd) needs to be installed.')\n$(gettext 'Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then enable the ntp daemon to start at boot.')\n$(gettext 'This feature is distribution specific and not handled by this script.')"; fi; echo $ent; read ;;
-      6) echo -ne $BOLD "$(gettext 'Enter 0 to set hardware clock to UTC and 1 to set it to local time :')" $CLR ; read rtcch; if [[ $rtcch -eq 1 ]]; then `$set_hwclock_local`; elif [[ $rtcch -eq 0 ]]; then `$set_hwclock_utc`; fi;  echo $ent; read ;;
+      6) echo -ne $BOLD "$(gettext 'Enter 0 to set hardware clock to UTC and 1 to set it to local time :')" $CLR ; read rtcch; if [[ "$rtcch" == "1" ]]; then `$set_hwclock_local`; elif [[ "$rtcch" == "0" ]]; then `$set_hwclock_utc`; else echo "$(gettext 'Incorrect choice entered.')"; fi;  echo $ent; read ;;
       7) hwclock -D ; echo $ent; read ;;
       8) hwclock -w ; echo $ent; read ;;
       9) hwclock -s ; echo $ent; read ;;

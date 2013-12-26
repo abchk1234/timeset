@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NAME_PROJECT (version: XXX)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-26 11:30+0530\n"
+"POT-Creation-Date: 2013-12-26 19:31+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: YOUR_NAME <ADR_MAIL>\n"
 "Language-Team: URL\n"
@@ -77,7 +77,8 @@ msgid "Synchronize hardware clock to system time"
 msgstr "Sincronizzare Hardware dell'orologio sull'ora di sistema"
 
 #: timeset:107
-msgid "Synchronize system time to hardware clock"
+#, fuzzy
+msgid "Synchronize system time to hardware clock time"
 msgstr "Sincronizzare ora del sistema da Hardware Clock"
 
 #: timeset:108
@@ -142,6 +143,10 @@ msgstr ""
 #, fuzzy
 msgid "Enter 0 to set hardware clock to UTC and 1 to set it to local time :"
 msgstr "Controllare se Hardware Clock è in ora locale o non"
+
+#: timeset:124
+msgid "Incorrect choice entered."
+msgstr ""
 
 #: timeset:128
 msgid "Enter the time."
