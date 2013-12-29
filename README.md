@@ -1,4 +1,4 @@
-A Bash script for managing system date and time.
+A script for managing system date and time.
 
 ##Requires
 <ul>
