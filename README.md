@@ -10,7 +10,8 @@ Install it as:
 
 sudo make install
 
-For Arch Linux users check out https://aur.archlinux.org/packages/timeset/
+For Manjaro Linux users its available in the Manjaro repositories.
+For Arch Linux users check out http://aur.archlinux.org/packages/timeset/
 
 ##Usage
 Run the script as root.
