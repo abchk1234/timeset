@@ -11,6 +11,7 @@ Install it as:
 sudo make install
 
 For Manjaro Linux users its available in the Manjaro repositories.
+
 For Arch Linux users check out http://aur.archlinux.org/packages/timeset/
 
 ##Usage
