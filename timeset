@@ -39,11 +39,11 @@ fi
 
 # Check if timedatectl can be used (systemd)
 if [ -f /usr/bin/timedatectl ]; then
-	sysd=1
+	systd=1
 fi
 
 # Command List
-if [ $sysd ]; then
+if [ $systd ]; then
 	#Systemd specific commands
 	get_time() {
 		timedatectl status
@@ -52,13 +52,13 @@ if [ $sysd ]; then
 		timedatectl list-timezones
 	}
 	set_timezone() {
-		timedatectl set-timezone $1
+		timedatectl set-timezone "$1"
 		echo "$(gettext 'Timezone set to') $1"
 	}
 	set_hwclock_local="timedatectl set-local-rtc 1"
 	set_hwclock_utc="timedatectl set-local-rtc 0"
 	set_time() {
-		timedatectl set-time $1
+		timedatectl set-time "$1"
 	}
 else
 	#Generic commands
@@ -66,11 +66,11 @@ else
 		echo -e "`date` (`date +%z`)" $BOLD "<-Local time" $CLR "\n`date -u` (UTC)"
 	}
 	list_timezones() {
-		find /usr/share/zoneinfo/ -print | less
+		find /usr/share/zoneinfo/posix -type f -printf "%P\n" | less
 	}
 	set_timezone() {
-		if [ -f "/usr/share/zoneinfo/$1" ]; then
-			ln -sf "/usr/share/zoneinfo/$1" /etc/localtime	
+		if [ -f "/usr/share/zoneinfo/posix/$1" ]; then
+			ln -sf "/usr/share/zoneinfo/posix/$1" /etc/localtime	
 			echo "$(gettext 'Timezone set to') $1"
 		else
 			echo "$(gettext 'Wrong timezone entered.')"
@@ -111,7 +111,7 @@ do
     echo "======================================================================"
     echo -ne $Green "$(gettext 'Enter your choice') [1-10,q]:" $CLR
     read -e choice
-    if [ ! $choice ]; then choice=0; fi;
+    if [ ! "$choice" ]; then choice=0; fi;
 
 # Commands
 
