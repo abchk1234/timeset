@@ -33,15 +33,17 @@ Red="\e[1;31m"
 BOLD="\e[1m"
 CLR="\e[0m"
 
-# Run as root, of course.
+# Run as root
 if [ "$UID" -ne "$ROOT_UID" ] ; then
 	echo "$(gettext 'Must be root to run this script')"
 	exit $E_NOTROOT
 fi
 
 # Check if timedatectl can be used and systemd is running
-if [ -f /usr/bin/timedatectl && pidof systemd ]; then
+if [ -f /usr/bin/timedatectl ] && [[ $(pidof systemd) ]]; then
 	systd=1
+else
+i	systd=0
 fi
 
 # Command List
@@ -54,8 +56,7 @@ if [ $systd ]; then
 		timedatectl list-timezones
 	}
 	set_timezone() {
-		timedatectl set-timezone "$1"
-		echo "$(gettext 'Timezone set to') $1"
+		timedatectl set-timezone "$1" && echo "$(gettext 'Timezone set to') $1"
 	}
 	set_hwclock_local="timedatectl set-local-rtc 1"
 	set_hwclock_utc="timedatectl set-local-rtc 0"
@@ -72,8 +73,7 @@ else
 	}
 	set_timezone() {
 		if [ -f "/usr/share/zoneinfo/posix/$1" ]; then
-			ln -sf "/usr/share/zoneinfo/posix/$1" /etc/localtime	
-			echo "$(gettext 'Timezone set to') $1"
+			ln -sf "/usr/share/zoneinfo/posix/$1" /etc/localtime && echo "$(gettext 'Timezone set to') $1"
 		else
 			echo "$(gettext 'Wrong timezone entered.')"
 		fi
@@ -91,8 +91,7 @@ fi
 
 ent=$(echo -e $BOLD "\n$(gettext 'Press Enter to continue...')" $CLR)
 
-while :
-do
+while (true); do
     clear
     echo "----------------------------------------------------------------------"
     echo -e $Blue " $(gettext 'TimeSet(tings) - Configure system date and time')" $CLR
@@ -112,26 +111,93 @@ do
     echo -e $Red "[q] $(gettext 'Exit/Quit')\n" $CLR
     echo "======================================================================"
     echo -ne $Green "$(gettext 'Enter your choice') [1-10,q]:" $CLR
+    
     read -e choice
-    if [ ! "$choice" ]; then choice=0; fi;
+    if [ ! "$choice" ]; then 
+	    choice=0 
+    fi
 
 # Commands
 
     case $choice in
-      1) echo -e $BOLD "$(gettext 'Current date and time')" $CLR ; get_time ; echo $ent ; read;;
-      2) list_timezones ;;
-      3) echo -ne $BOLD "$(gettext 'Enter the timezone (It should be like Continent/City):')" $CLR ; read -e tz ; set_timezone $tz ; echo $ent ; read ;;
-      4) echo -e $Green "$(gettext 'Synchronizing time from the network')\n $(gettext 'NTP should be installed for this to work.')\n" $CLR "$(gettext 'Please wait a few moments while the time is being synchronised...')" ; ntpdate -u 0.pool.ntp.org ; echo $ent ; read ;;
-      5) if [ $sysd ]; then echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR ; read ntch; timedatectl set-ntp $ntch; else echo -e "$(gettext 'For this to work the ntp daemon (ntpd) needs to be installed.')\n$(gettext 'Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then enable the ntp daemon to start at boot.')\n$(gettext 'This feature is distribution specific and not handled by this script.')"; fi; echo $ent; read ;;
-      6) echo -ne $BOLD "$(gettext 'Enter 0 to set hardware clock to UTC and 1 to set it to local time :')" $CLR ; read rtcch; if [[ "$rtcch" == "1" ]]; then `$set_hwclock_local`; elif [[ "$rtcch" == "0" ]]; then `$set_hwclock_utc`; else echo "$(gettext 'Incorrect choice entered.')"; fi;  echo $ent; read ;;
-      7) hwclock -D ; echo $ent; read ;;
-      8) hwclock -w ; echo $ent; read ;;
-      9) hwclock -s ; echo $ent; read ;;
-      10) echo -ne $Green "$(gettext 'Enter the time.')\n $(gettext 'The time may be specified in the format 2012-10-30 18:17:16')\n $(gettext 'Only hh:mm can also be used.')" $CLR "\n" $BOLD "$(gettext 'Enter the time:')" $CLR ; read -e time; set_time "$time"; echo $ent; read ;;
+      1)
+      	echo -e $BOLD "$(gettext 'Current date and time')" $CLR 
+	get_time 
+	echo $ent; read
+	;;
+      
+      2) 
+      	list_timezones ;;
+      
+      3) 
+      	echo -ne $BOLD "$(gettext 'Enter the timezone (It should be like Continent/City):')" $CLR 
+	read -e tz ;set_timezone $tz
+	echo $ent ; read 
+	;;
+
+      4) 
+      	echo -e $Green "$(gettext 'Synchronizing time from the network')\n $(gettext 'NTP should be installed for this to work.')\n" $CLR "$(gettext 'Please wait a few moments while the time is being synchronised...')"
+      	ntpdate -u 0.pool.ntp.org 
+	echo $ent ; read 
+	;;
+
+      5) 
+      	if [ $systd ]; then 
+		echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR 
+		read ntch; timedatectl set-ntp $ntch
+	else 
+		echo -e "$(gettext 'For this to work the ntp daemon (ntpd) needs to be installed.')\n$(gettext 'Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then enable the ntp daemon to start at boot.')\n$(gettext 'This feature is distribution specific and not handled by this script.')" 
+	fi
+	echo $ent; read 
+	;;
+
+      6) 
+      	echo -ne $BOLD "$(gettext 'Enter 0 to set hardware clock to UTC and 1 to set it to local time :')" $CLR 
+	read rtcch
+	if [[ "$rtcch" == "1" ]]; then 
+		`$set_hwclock_local`
+	elif [[ "$rtcch" == "0" ]]; then 
+		`$set_hwclock_utc` 
+	else 
+		echo "$(gettext 'Incorrect choice entered.')" 
+	fi  
+	echo $ent; read 
+	;;
+
+      7) 
+      	hwclock -D 
+      	echo $ent; read 
+	;;
+
+      8) 
+      	hwclock -w 
+	echo $ent; read 
+	;;
+      
+      9) 
+      	hwclock -s 
+	echo $ent; read 
+	;;
+
+      10) 
+      	echo -ne $Green "$(gettext 'Enter the time.')\n $(gettext 'The time may be specified in the format 2012-10-30 18:17:16')\n $(gettext 'Only hh:mm can also be used.')" $CLR "\n" $BOLD "$(gettext 'Enter the time:')" $CLR ; 
+	read -e time; set_time "$time" 
+	echo $ent; read 
+	;;
+
       q) exit 0 ;;
-      0) ;;
-      *) echo -e $Red "$(gettext 'Oops!!! Please a valid choice!')" $CLR ;
-         echo $ent ; read ;;
+
+      0) 
+      	# Do nothing 
+      	;;
+
+      *) 
+      	echo -e $Red "$(gettext 'Oops!!! Please a valid choice!')" $CLR
+        echo $ent ; read
+	;;
     esac
+    # Case ends
 done
+# Menu loop ends
+
 exit 0
