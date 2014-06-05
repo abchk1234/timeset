@@ -9,11 +9,14 @@ On systems with systemd available, uses the timedatectl command, else uses gener
 
 ##Installation
 
-Install it as:
+Install it (as root):
 
-sudo make install
+<pre>
+ # make install
+</pre>
 
-For Manjaro Linux users its available in the Manjaro repositories.
+For Manjaro Linux users its available in the Manjaro repositories. 
+(To check, use the command: <i> pacman -Ss timeset</i>)
 
 For Arch Linux users check out http://aur.archlinux.org/packages/timeset/
 
@@ -47,3 +50,7 @@ Run the script as root.
  
 ======================================================================
 </pre>
+
+##Links
+
+https://forum.manjaro.org/index.php?topic=7067.90
