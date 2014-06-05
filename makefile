@@ -23,7 +23,7 @@ install: all
 	$(INSTALL) -m644 timeset.desktop $(DESTDIR)$(deskdir)
 	$(INSTALL) -m644 AUTHORS $(DESTDIR)$(appdir)
 	$(INSTALL) -m644 CHANGELOG $(DESTDIR)$(appdir)
-	$(INSTALL) -m644 README $(DESTDIR)$(appdir)
+	$(INSTALL) -m644 README.md $(DESTDIR)$(appdir)
 	$(INSTALL) -m644 COPYING $(DESTDIR)$(appdir)
 	$(INSTALL) -m644 makefile $(DESTDIR)$(appdir)
 	for file in po/*.mo; \
