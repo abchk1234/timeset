@@ -1,6 +1,6 @@
 #!/bin/bash
 ##timeset- A script to configure the system date and time on Linux
-#Copyright (C) 2013  Aaditya Bagga  aaditya_gnulinux@zoho.com
+#Copyright (C) 2013-2014 Aaditya Bagga aaditya_gnulinux@zoho.com
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -15,6 +15,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+
+ver=1.3 # Version
 
 # Gettext internationalization
 export TEXTDOMAIN="timeset"

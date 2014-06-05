@@ -1,0 +1,4 @@
+1.3 (05 Jun 2014)
+Better checking if systemd is present and enabled +
+Improved output from "show timezones" option +
+Add more documentation.

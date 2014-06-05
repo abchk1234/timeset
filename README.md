@@ -21,7 +21,9 @@ For Arch Linux users check out http://aur.archlinux.org/packages/timeset/
 
 Run the script as root.
 
+<pre>
  # timeset
+</pre>
 
 ##Program output
 
