@@ -15,7 +15,7 @@ install: all
 	$(INSTALL) -d $(DESTDIR)$(bindir)
 	$(INSTALL) -d $(DESTDIR)$(icons)
 	$(INSTALL) -d $(DESTDIR)$(deskdir)
-	$(INSTALL) -m755 timeset $(DESTDIR)$(bindir)
+	$(INSTALL) -m755 timeset.sh $(DESTDIR)$(bindir)/timeset
 	$(INSTALL) -m644 timeset.png $(DESTDIR)$(icons)
 	$(INSTALL) -m644 timeset.desktop $(DESTDIR)$(deskdir)
 	for file in po/*.mo; \

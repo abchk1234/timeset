@@ -37,8 +37,8 @@ if [ "$UID" -ne "$ROOT_UID" ] ; then
 	exit $E_NOTROOT
 fi
 
-# Check if timedatectl can be used (systemd)
-if [ -f /usr/bin/timedatectl ]; then
+# Check if timedatectl can be used and systemd is running
+if [ -f /usr/bin/timedatectl && pidof systemd ]; then
 	systd=1
 fi
 
@@ -61,12 +61,12 @@ if [ $systd ]; then
 		timedatectl set-time "$1"
 	}
 else
-	#Generic commands
+	#Generic Linux commands
 	get_time() {
 		echo -e "`date` (`date +%z`)" $BOLD "<-Local time" $CLR "\n`date -u` (UTC)"
 	}
 	list_timezones() {
-		find /usr/share/zoneinfo/posix -type f -printf "%P\n" | less
+		find /usr/share/zoneinfo/posix -type f -mindepth 2 -printf "%P\n" | sort |  less
 	}
 	set_timezone() {
 		if [ -f "/usr/share/zoneinfo/posix/$1" ]; then
@@ -87,13 +87,13 @@ fi
 
 # Menu
 
-ent=`echo -e $BOLD "\n$(gettext 'Press Enter...')" $CLR`
+ent=$(echo -e $BOLD "\n$(gettext 'Press Enter to continue...')" $CLR)
 
 while :
 do
     clear
     echo "----------------------------------------------------------------------"
-    echo -e $Blue " $(gettext 'TimeSet(tings) - Configure the system date and time')" $CLR
+    echo -e $Blue " $(gettext 'TimeSet(tings) - Configure system date and time')" $CLR
     echo "----------------------------------------------------------------------"
     echo 
     echo -e $Yel "[1]" $CLR $BOLD "$(gettext 'Show current date and time configuration')" $CLR
