@@ -40,14 +40,14 @@ if [ "$UID" -ne "$ROOT_UID" ] ; then
 fi
 
 # Check if timedatectl can be used and systemd is running
-if [ -f /usr/bin/timedatectl ] && [[ $(pidof systemd) ]]; then
+if [[ -f /usr/bin/timedatectl ]] && [[ $(pidof systemd) ]]; then
 	systd=1
 else
 	systd=0
 fi
 
 # Command List
-if [ $systd ]; then
+if [ $systd -eq 1 ]; then
 	#Systemd specific commands
 	get_time() {
 		timedatectl status
@@ -66,7 +66,7 @@ if [ $systd ]; then
 else
 	#Generic Linux commands
 	get_time() {
-		echo -e "`date` (`date +%z`)" $BOLD "<-Local time" $CLR "\n`date -u` (UTC)"
+		echo -e "$(date) ($(date +%z))" $BOLD "<-Local time" $CLR "\n$(date -u) (UTC)"
 	}
 	list_timezones() {
 		find /usr/share/zoneinfo/posix -type f -mindepth 2 -printf "%P\n" | sort |  less
@@ -144,7 +144,7 @@ while (true); do
 
       5)
         # Enable the NTP daemon
-      	if [ $systd ]; then 
+      	if [ $systd -eq 1 ]; then 
 		echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR 
 		read ntch; timedatectl set-ntp $ntch
 	else 
@@ -157,9 +157,9 @@ while (true); do
       	echo -ne $BOLD "$(gettext 'Enter 0 to set hardware clock to UTC and 1 to set it to local time :')" $CLR 
 	read rtcch
 	if [[ "$rtcch" == "1" ]]; then 
-		`$set_hwclock_local`
+		$set_hwclock_local
 	elif [[ "$rtcch" == "0" ]]; then 
-		`$set_hwclock_utc` 
+		$set_hwclock_utc 
 	else 
 		echo "$(gettext 'Incorrect choice entered.')" 
 	fi  
