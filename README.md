@@ -1,5 +1,5 @@
 A script for managing system date and time.
-On systems with systemd available, uses the timedatectl command, else uses generic linux commands.
+On systems with systemd available, uses the timedatectl command, else uses generic Linux commands.
 
 ##Requires
 
@@ -25,6 +25,7 @@ Run the script as root.
 
 ##Program output
 
+<code>
 ----------------------------------------------------------------------
   TimeSet(tings) - Configure system date and time 
 ----------------------------------------------------------------------
@@ -43,3 +44,4 @@ Run the script as root.
  [q] Exit/Quit
  
 ======================================================================
+</code>
