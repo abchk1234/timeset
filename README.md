@@ -53,4 +53,5 @@ Run the script as root.
 
 ##Links
 
-https://forum.manjaro.org/index.php?topic=7067.90
+https://forum.manjaro.org/index.php?topic=7067.0
+https://github.com/aadityabagga/timeset-gui
