@@ -43,7 +43,7 @@ fi
 if [ -f /usr/bin/timedatectl ] && [[ $(pidof systemd) ]]; then
 	systd=1
 else
-i	systd=0
+	systd=0
 fi
 
 # Command List
@@ -92,6 +92,7 @@ fi
 ent=$(echo -e $BOLD "\n$(gettext 'Press Enter to continue...')" $CLR)
 
 while (true); do
+    # Run infinte loop for menu, till the user quits.
     clear
     echo "----------------------------------------------------------------------"
     echo -e $Blue " $(gettext 'TimeSet(tings) - Configure system date and time')" $CLR
@@ -131,8 +132,8 @@ while (true); do
       
       3) 
       	echo -ne $BOLD "$(gettext 'Enter the timezone (It should be like Continent/City):')" $CLR 
-	read -e tz ;set_timezone $tz
-	echo $ent ; read 
+	read -e tz; set_timezone $tz
+	echo $ent; read 
 	;;
 
       4) 
@@ -141,7 +142,8 @@ while (true); do
 	echo $ent ; read 
 	;;
 
-      5) 
+      5)
+        # Enable the NTP daemon
       	if [ $systd ]; then 
 		echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR 
 		read ntch; timedatectl set-ntp $ntch
@@ -165,21 +167,25 @@ while (true); do
 	;;
 
       7) 
-      	hwclock -D 
+      	# Display complete info for hardware clock
+	hwclock --debug 
       	echo $ent; read 
 	;;
 
-      8) 
-      	hwclock -w 
+      8)
+        # Set system time from hardware clock
+      	hwclock --systohc
 	echo $ent; read 
 	;;
       
-      9) 
-      	hwclock -s 
+      9)
+        # Set hardware clock to system time.
+      	hwclock --hctosys
 	echo $ent; read 
 	;;
 
-      10) 
+      10)
+        # Set time manually
       	echo -ne $Green "$(gettext 'Enter the time.')\n $(gettext 'The time may be specified in the format 2012-10-30 18:17:16')\n $(gettext 'Only hh:mm can also be used.')" $CLR "\n" $BOLD "$(gettext 'Enter the time:')" $CLR ; 
 	read -e time; set_time "$time" 
 	echo $ent; read 
