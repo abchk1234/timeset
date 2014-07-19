@@ -66,7 +66,7 @@ if [ $systd -eq 1 ]; then
 else
 	#Generic Linux commands
 	get_time() {
-		echo -e "$(date) ($(date +%z))" $BOLD "<-Local time" $CLR "\n$(date -u) (UTC)"
+		echo -e "$(date) ($(date +%z))" $BOLD "<-Local time" $CLR "\n$(date -u) (UTC)" $BOLD "  <-UTC" $CLR
 	}
 	list_timezones() {
 		find /usr/share/zoneinfo/posix -type f -mindepth 2 -printf "%P\n" | sort |  less
@@ -168,19 +168,19 @@ while (true); do
 
       7) 
       	# Display complete info for hardware clock
-	hwclock --debug 
+	/sbin/hwclock --debug 
       	echo $ent; read 
 	;;
 
       8)
         # Set system time from hardware clock
-      	hwclock --systohc
+      	/sbin/hwclock --systohc
 	echo $ent; read 
 	;;
       
       9)
         # Set hardware clock to system time.
-      	hwclock --hctosys
+      	/sbin/hwclock --hctosys
 	echo $ent; read 
 	;;
 
