@@ -1,6 +1,7 @@
 #!/bin/bash
-##timeset- A script to configure the system date and time on Linux
-#Copyright (C) 2013-2014 Aaditya Bagga aaditya_gnulinux@zoho.com
+##
+#  timeset- A script to configure the system date and time on Linux
+#  Copyright (C) 2013-2014 Aaditya Bagga (aaditya_gnulinux@zoho.com)
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -207,3 +208,4 @@ done
 # Menu loop ends
 
 exit 0
+

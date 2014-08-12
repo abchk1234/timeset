@@ -1,3 +1,4 @@
+NAME = timeset
 VERSION = 1.3
 SHELL = /bin/bash
 INSTALL = /usr/bin/install
@@ -9,7 +10,8 @@ localedir = /usr/share/locale
 icons = /usr/share/pixmaps
 deskdir = /usr/share/applications
 mandir = /usr/share/man/man1/
-appdir = /usr/share/timeset-$(VERSION)
+docdir = /usr/share/doc/$(NAME)
+appdir = /usr/share/$(NAME)-$(VERSION)
 
 all:
 
@@ -17,14 +19,15 @@ install: all
 	$(INSTALL) -d $(DESTDIR)$(bindir)
 	$(INSTALL) -d $(DESTDIR)$(icons)
 	$(INSTALL) -d $(DESTDIR)$(deskdir)
+	$(INSTALL) -d $(DESTDIR)$(docdir)
 	$(INSTALL) -d $(DESTDIR)$(appdir)
 	$(INSTALL) -m755 timeset.sh $(DESTDIR)$(bindir)/timeset
 	$(INSTALL) -m644 timeset.png $(DESTDIR)$(icons)
 	$(INSTALL) -m644 timeset.desktop $(DESTDIR)$(deskdir)
-	$(INSTALL) -m644 AUTHORS $(DESTDIR)$(appdir)
-	$(INSTALL) -m644 CHANGELOG $(DESTDIR)$(appdir)
-	$(INSTALL) -m644 README.md $(DESTDIR)$(appdir)
-	$(INSTALL) -m644 COPYING $(DESTDIR)$(appdir)
+	$(INSTALL) -m644 AUTHORS $(DESTDIR)$(docdir)
+	$(INSTALL) -m644 CHANGELOG $(DESTDIR)$(docdir)
+	$(INSTALL) -m644 README.md $(DESTDIR)$(docdir)
+	$(INSTALL) -m644 COPYING $(DESTDIR)$(docdir)
 	$(INSTALL) -m644 makefile $(DESTDIR)$(appdir)
 	for file in po/*.mo; \
 	do \
