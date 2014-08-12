@@ -15,8 +15,7 @@ Install it (as root):
  # make install
 </pre>
 
-For Manjaro Linux users its available in the Manjaro repositories. 
-(To check, use the command: <i> pacman -Ss timeset</i>)
+For Manjaro Linux users its available in the Manjaro repositories.
 
 For Arch Linux users check out http://aur.archlinux.org/packages/timeset/
 

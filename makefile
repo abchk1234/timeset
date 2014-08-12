@@ -21,9 +21,9 @@ install: all
 	$(INSTALL) -d $(DESTDIR)$(deskdir)
 	$(INSTALL) -d $(DESTDIR)$(docdir)
 	$(INSTALL) -d $(DESTDIR)$(appdir)
-	$(INSTALL) -m755 timeset.sh $(DESTDIR)$(bindir)/timeset
-	$(INSTALL) -m644 timeset.png $(DESTDIR)$(icons)
-	$(INSTALL) -m644 timeset.desktop $(DESTDIR)$(deskdir)
+	$(INSTALL) -m755 bin/timeset.sh $(DESTDIR)$(bindir)/timeset
+	$(INSTALL) -m644 install/timeset.png $(DESTDIR)$(icons)
+	$(INSTALL) -m644 install/timeset.desktop $(DESTDIR)$(deskdir)
 	$(INSTALL) -m644 AUTHORS $(DESTDIR)$(docdir)
 	$(INSTALL) -m644 CHANGELOG $(DESTDIR)$(docdir)
 	$(INSTALL) -m644 README.md $(DESTDIR)$(docdir)

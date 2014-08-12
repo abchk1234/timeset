@@ -40,7 +40,7 @@ if [ "$UID" -ne "$ROOT_UID" ] ; then
 	exit $E_NOTROOT
 fi
 
-# Check if timedatectl can be used and systemd is running
+# Check if timedatectl is present and systemd is running
 if [[ -f /usr/bin/timedatectl ]] && [[ $(pidof systemd) ]]; then
 	systd=1
 else
