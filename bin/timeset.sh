@@ -47,6 +47,13 @@ else
 	systd=0
 fi
 
+# Check if openrc is running
+if [ -e /run/openrc ]; then
+	orc=1
+else
+	orc=0
+fi
+
 # Command List
 if [ $systd -eq 1 ]; then
 	#Systemd specific commands
@@ -70,7 +77,7 @@ else
 		echo -e "$(date) ($(date +%z))" $BOLD "<-Local time" $CLR "\n$(date -u) (UTC)" $BOLD "  <-UTC" $CLR
 	}
 	list_timezones() {
-		find /usr/share/zoneinfo/posix -type f -mindepth 2 -printf "%P\n" | sort |  less
+		find /usr/share/zoneinfo/posix -mindepth 2 -type f -printf "%P\n" | sort | less
 	}
 	set_timezone() {
 		if [ -f "/usr/share/zoneinfo/posix/$1" ]; then
@@ -139,7 +146,7 @@ while (true); do
 
       4) 
       	echo -e $Green "$(gettext 'Synchronizing time from the network')\n $(gettext 'NTP should be installed for this to work.')\n" $CLR "$(gettext 'Please wait a few moments while the time is being synchronised...')"
-      	ntpdate -u 0.pool.ntp.org 
+	/usr/sbin/ntpdate -u 0.pool.ntp.org
 	echo $ent ; read 
 	;;
 
@@ -159,8 +166,22 @@ while (true); do
 	read rtcch
 	if [[ "$rtcch" == "1" ]]; then 
 		$set_hwclock_local
+		# openrc specific
+		if [ $orc -eq 1 ]; then
+			# modify /etc/conf.d/hwclock if it exists
+			if [ -e /etc/conf.d/hwclock ]; then
+				sed -i "s/clock=.*/clock=\"local\"/" /etc/conf.d/hwclock
+			fi
+		fi
 	elif [[ "$rtcch" == "0" ]]; then 
-		$set_hwclock_utc 
+		$set_hwclock_utc
+		# openrc specific
+		if [ $orc -eq 1 ]; then
+			# modify /etc/conf.d/hwclock if it exists
+			if [ -e /etc/conf.d/hwclock ]; then
+				sed -i "s/clock=.*/clock=\"UTC\"/" /etc/conf.d/hwclock
+			fi
+		fi
 	else 
 		echo "$(gettext 'Incorrect choice entered.')" 
 	fi  
