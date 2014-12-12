@@ -153,10 +153,29 @@ while (true); do
       5)
         # Enable the NTP daemon
       	if [ $systd -eq 1 ]; then 
-		echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR 
-		read ntch; timedatectl set-ntp $ntch
-	else 
-		echo -e "$(gettext 'For this to work the ntp daemon (ntpd) needs to be installed.')\n$(gettext 'Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then enable the ntp daemon to start at boot.')\n$(gettext 'This feature is distribution specific and not handled by this script.')" 
+		echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR
+		read ntch
+		timedatectl set-ntp $ntch
+	elif [ $orc -eq 1 ]; then
+		echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR
+		read ntch
+		if [ "$ntch" -eq 1 ]; then
+			if [[ $(pacman -Qs ntp-openrc) ]]; then
+				rc-update add ntpd
+			else
+				echo "ntpd service not found"
+			fi
+		elif [ "$ntch" -eq 0 ]; then
+			if [[ $(pacman -Qs ntp-openrc) ]]; then
+				rc-update del ntpd
+			else
+				echo "ntpd service not found"
+			fi
+		else
+			echo "Incorrect choice"
+		fi
+	else
+		echo -e "$(gettext 'For this to work the ntp daemon (ntpd) needs to be installed.')\n$(gettext 'Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then enable the ntp daemon to start at boot.')\n$(gettext 'This feature is distribution specific and not handled by this script.')"
 	fi
 	echo $ent; read 
 	;;
