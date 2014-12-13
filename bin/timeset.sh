@@ -148,7 +148,10 @@ while (true); do
 
       4) 
       	echo -e $Green "$(gettext 'Synchronizing time from the network')\n $(gettext 'NTP should be installed for this to work.')\n" $CLR "$(gettext 'Please wait a few moments while the time is being synchronised...')"
-	/usr/sbin/ntpdate -u 0.pool.ntp.org
+	if [ -e /usr/sbin/ntpdate ]; then
+		/usr/sbin/ntpdate -u 0.pool.ntp.org
+	else
+		echo "$(gettext 'ntpdate not found')"
 	echo $ent ; read 
 	;;
 
