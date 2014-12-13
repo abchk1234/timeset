@@ -17,7 +17,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-ver=1.3 # Version
+ver=1.5 # Version
 
 # Gettext internationalization
 export TEXTDOMAIN="timeset"
@@ -89,8 +89,10 @@ else
 	set_hwclock_local="hwclock --systohc --localtime"
 	set_hwclock_utc="hwclock --systohc --utc"
 	set_time() {
-		if [[ "$1" == [0-9]*:[0-9]* ]] || [[ "$1" == "[0-9]*-[0-9]*-[0-9]* [0-9]*:[0-9]*:[0-9]*" ]] || [[ "$1" == "[0-9]*-[0-9]*-[0-9]* [0-9]*:[0-9]*" ]]; then date -s "$1"
-		else echo "$(gettext 'Time not entered properly.')"
+		if [[ "$1" == [0-9]*:[0-9]* ]] || [[ "$1" == [0-9]*-[0-9]*-[0-9]* ]] || [[ "$1" == "[0-9]*-[0-9]*-[0-9]* [0-9]*:[0-9]*" ]] || [[ "$1" == "[0-9]*-[0-9]*-[0-9]* [0-9]*:[0-9]*:[0-9]*" ]]; then
+			date -s "$1"
+		else
+			echo "$(gettext 'Time not entered correctly.')"
 		fi
 	}
 fi
@@ -160,13 +162,13 @@ while (true); do
 		echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR
 		read ntch
 		if [ "$ntch" -eq 1 ]; then
-			if [[ $(pacman -Qs ntp-openrc) ]]; then
+			if [ -f /etc/init.d/ntpd ]; then
 				rc-update add ntpd
 			else
 				echo "ntpd service not found"
 			fi
 		elif [ "$ntch" -eq 0 ]; then
-			if [[ $(pacman -Qs ntp-openrc) ]]; then
+			if [ -f /etc/init.d/ntpd ]; then
 				rc-update del ntpd
 			else
 				echo "ntpd service not found"
@@ -192,6 +194,7 @@ while (true); do
 				sed -i "s/clock=.*/clock=\"local\"/" /etc/conf.d/hwclock
 			fi
 		fi
+		echo "$(gettext 'Hardware clock set to local time.')"
 	elif [[ "$rtcch" == "0" ]]; then 
 		$set_hwclock_utc
 		# openrc specific
@@ -201,6 +204,7 @@ while (true); do
 				sed -i "s/clock=.*/clock=\"UTC\"/" /etc/conf.d/hwclock
 			fi
 		fi
+		echo "$(gettext 'Hardware clock set to UTC.')"
 	else 
 		echo "$(gettext 'Incorrect choice entered.')" 
 	fi  

@@ -1,5 +1,5 @@
 NAME = timeset
-VERSION = 1.3
+VERSION = 1.5
 SHELL = /bin/bash
 INSTALL = /usr/bin/install
 MSGFMT = /usr/bin/msgfmt
