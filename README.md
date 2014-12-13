@@ -4,7 +4,7 @@ On systems with systemd available, uses the timedatectl command, else uses gener
 ##Requires
 
 <ul>
-<li>ntp (optional: for using ntpdate to synchronise time from the network)</li>
+<li>ntp (for using ntpdate to synchronise time from the network)</li>
 </ul>
 
 ##Installation
