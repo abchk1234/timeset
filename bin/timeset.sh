@@ -151,7 +151,7 @@ while (true); do
 	if [ -e /usr/sbin/ntpdate ]; then
 		/usr/sbin/ntpdate -u 0.pool.ntp.org
 	else
-		echo "$(gettext 'ntpdate not found')"
+		echo "$(gettext '  ntpdate not found')"
 	fi
 	echo $ent ; read 
 	;;
