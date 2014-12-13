@@ -77,7 +77,7 @@ else
 		echo -e "$(date) ($(date +%z))" $BOLD "<-Local time" $CLR "\n$(date -u) (UTC)" $BOLD "  <-UTC" $CLR
 	}
 	list_timezones() {
-		find /usr/share/zoneinfo/posix -mindepth 2 -type f -printf "%P\n" | sort | less
+		find -L /usr/share/zoneinfo/posix -mindepth 2 -type f -printf "%P\n" | sort | less
 	}
 	set_timezone() {
 		if [ -f "/usr/share/zoneinfo/posix/$1" ]; then
