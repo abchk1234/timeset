@@ -169,16 +169,16 @@ while (true); do
 			if [ -f /etc/init.d/ntpd ]; then
 				rc-update add ntpd
 			else
-				echo "ntpd service not found"
+				echo "$(gettext 'ntpd service not found')"
 			fi
 		elif [ "$ntch" -eq 0 ]; then
 			if [ -f /etc/init.d/ntpd ]; then
 				rc-update del ntpd
 			else
-				echo "ntpd service not found"
+				echo "$(gettext 'ntpd service not found')"
 			fi
 		else
-			echo "Incorrect choice"
+			echo "$(gettext 'Incorrect choice')"
 		fi
 	else
 		echo -e "$(gettext 'For this to work the ntp daemon (ntpd) needs to be installed.')\n$(gettext 'Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then enable the ntp daemon to start at boot.')\n$(gettext 'This feature is distribution specific and not handled by this script.')"
