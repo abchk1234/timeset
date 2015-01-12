@@ -1,5 +1,5 @@
 NAME = timeset
-VERSION = 1.5
+VERSION = 1.6
 SHELL = /bin/bash
 INSTALL = /usr/bin/install
 MSGFMT = /usr/bin/msgfmt
@@ -14,6 +14,7 @@ docdir = /usr/share/doc/$(NAME)
 appdir = /usr/share/$(NAME)-$(VERSION)
 
 all:
+	cd po; make gettext
 
 install: all
 	$(INSTALL) -d $(DESTDIR)$(bindir)
@@ -35,3 +36,11 @@ install: all
 		$(INSTALL) -d $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES; \
 		$(INSTALL) -m644 $$file  $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/timeset.mo; \
 	done
+
+uninstall:
+	rm $(DESTDIR)$(bindir)/$(NAME)
+	rm $(DESTDIR)$(icons)/$(NAME).png
+	rm $(DESTDIR)$(deskdir)/$(NAME).desktop
+	rm -r $(DESTDIR)$(docdir)
+	rm -r $(DESTDIR)$(appdir)
+	rm $(DESTDIR)/usr/share/locale/*/LC_MESSAGES/$(NAME).mo

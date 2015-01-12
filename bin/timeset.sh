@@ -1,7 +1,7 @@
 #!/bin/bash
 ##
 #  timeset- A script to configure the system date and time on Linux
-#  Copyright (C) 2013-2014 Aaditya Bagga (aaditya_gnulinux@zoho.com)
+#  Copyright (C) 2013-2015 Aaditya Bagga (aaditya_gnulinux@zoho.com)
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-ver=1.5 # Version
+ver=1.6 # Version
 
 # Gettext internationalization
 export TEXTDOMAIN="timeset"
@@ -105,7 +105,7 @@ while (true); do
     # Run infinte loop for menu, till the user quits.
     clear
     echo "----------------------------------------------------------------------"
-    echo -e $Blue " $(gettext 'TimeSet(tings) - Configure system date and time')" $CLR
+    echo -e $Blue " $(gettext 'TimeSet - Configure system date and time')" $CLR
     echo "----------------------------------------------------------------------"
     echo 
     echo -e $Yel "[1]" $CLR $BOLD "$(gettext 'Show current date and time configuration')" $CLR
@@ -187,7 +187,7 @@ while (true); do
 	;;
 
       6) 
-      	echo -ne $BOLD "$(gettext 'Enter 0 to set hardware clock to UTC and 1 to set it to local time :')" $CLR 
+      	echo -ne $BOLD "$(gettext 'Enter 0 to set hardware clock to UTC and 1 to set it to local time: ')" $CLR 
 	read rtcch
 	if [[ "$rtcch" == "1" ]]; then 
 		$set_hwclock_local
