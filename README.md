@@ -1,35 +1,32 @@
-A script for managing system date and time.
-On systems with systemd available, uses the timedatectl command, else uses generic Linux commands.
+A bash script to manage system date and time.
 
-##Requires
+# Requires
 
-<ul>
-<li>ntp (for using ntpdate to synchronise time from the network)</li>
-</ul>
+* ntp (for using ntpdate to synchronise time from the network)
 
-##Installation
+# Installation
 
 Install it (as root):
 
-<pre>
+~~~~
  # make install
-</pre>
+~~~~
 
 For Manjaro Linux users its available in the Manjaro repositories.
 
 For Arch Linux users check out http://aur.archlinux.org/packages/timeset/
 
-##Usage
+# Usage
 
 Run the script as root.
 
-<pre>
+~~~~
  # timeset
-</pre>
+~~~~
 
-##Program output
+# Program output
 
-<pre>
+~~~~
 ----------------------------------------------------------------------
   TimeSet(tings) - Configure system date and time 
 ----------------------------------------------------------------------
@@ -48,9 +45,9 @@ Run the script as root.
  [q] Exit/Quit
  
 ======================================================================
-</pre>
+~~~~
 
-##Links
+# Links
 
 https://forum.manjaro.org/index.php?topic=7067.0
 

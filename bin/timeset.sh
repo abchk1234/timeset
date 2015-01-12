@@ -187,7 +187,7 @@ while (true); do
 	;;
 
       6) 
-      	echo -ne $BOLD "$(gettext 'Enter 0 to set hardware clock to UTC and 1 to set it to local time: ')" $CLR 
+	echo -ne $BOLD "$(gettext 'Enter 0 to set hardware clock to UTC and 1 to set it to local time: ')" $CLR
 	read rtcch
 	if [[ "$rtcch" == "1" ]]; then 
 		$set_hwclock_local
