@@ -17,16 +17,13 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-#VER=1.6 # Version
+VER=1.6 # Version
 
 # Gettext internationalization
 export TEXTDOMAIN="timeset"
 export TEXTDOMAINDIR="/usr/share/locale"
 
-ROOT_UID=0 # Only users with $UID 0 have root privileges.
-E_NOTROOT=87 # Non-root exit error.
-
-#Colors
+# Colors
 BLUE="\e[1;34m"
 YELLOW="\e[1;33m"
 GREEN="\e[1;32m"
@@ -35,14 +32,14 @@ BOLD="\e[1m"
 CLR="\e[0m"
 
 # Functions related to input and output
-msg () {
+msg() {
 	# msg $msg
 	local msg=$1
 	gettext "$msg"
 	echo
 }
 
-msg_bold () {
+msg_bold() {
 	# msg_bold $msg
 	local msg=$1
 	echo -ne "$BOLD"
@@ -50,7 +47,7 @@ msg_bold () {
 	echo -e "$CLR"
 }
 
-msg_green () {
+msg_green() {
 	# msg_green $msg
 	local msg=$1
 	echo -ne "$GREEN"
@@ -58,15 +55,15 @@ msg_green () {
 	echo -e "$CLR"
 }
 
-pause_for_input () {
+pause_for_input() {
 	echo -ne "$BOLD" "$(gettext 'Press Enter to continue...')" "$CLR"
 	read
 }
 
 # Run as root
-if [ "$UID" -ne "$ROOT_UID" ] ; then
+if [ "$EUID" -ne 0 ] ; then
 	msg 'Root priviliges required.'
-	exit "$E_NOTROOT"
+	exit 1
 fi
 
 # Check if timedatectl is present and systemd is running
@@ -159,7 +156,8 @@ set_ntp () {
 	local ntch=$1
 	if [ "$SYSTEMD" -eq 1 ]; then
 		timedatectl set-ntp "$ntch"
-	elif [ "$OPENRC" -eq 1 ]; then
+	fi
+	if [ "$OPENRC" -eq 1 ]; then
 		if [ -f /etc/init.d/ntpd ]; then
 			if [ "$ntch" -eq 1 ]; then
 				rc-update add ntpd
@@ -209,8 +207,9 @@ while (true); do
     echo -e "$YELLOW" [8] "$CLR $BOLD" "$(gettext 'Synchronize hardware clock to system time')" "$CLR"
     echo -e "$YELLOW" [9] "$CLR $BOLD" "$(gettext 'Synchronize system time to hardware clock time')" "$CLR"
     echo -e "$YELLOW" [10] "$CLR$BOLD" "$(gettext 'Set system time manually')" "$CLR"
+    echo -e "$YELLOW" [11] "$CLR$BOLD" "$(gettext 'About')" "$CLR"
     echo 
-    echo -e "$RED" "[q] $(gettext 'Exit/Quit')\n" "$CLR"
+    echo -e "$RED" "[q]   $(gettext 'Exit/Quit')\n" "$CLR"
     echo "======================================================================"
     echo -ne "$GREEN" "$(gettext 'Enter your choice') [1-10,q]:" "$CLR"
     
@@ -298,6 +297,14 @@ while (true); do
 	msg_green 'Only hh:mm can also be used.'
 	echo -ne "$BOLD" "$(gettext 'Enter the time: ')" "$CLR"
 	read -e time; set_time "$time" 
+	pause_for_input
+	;;
+
+      11)
+	# About
+	echo "Timeset version $VER"
+	[[ $SYSTEMD -eq 1 ]] && echo "Using init systemd"
+	[[ $OPENRC -eq 1 ]] && echo "Using init OpenRC"
 	pause_for_input
 	;;
 
