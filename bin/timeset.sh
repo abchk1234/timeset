@@ -36,7 +36,7 @@ CLR="\e[0m"
 
 # Run as root
 if [ "$UID" -ne "$ROOT_UID" ] ; then
-	echo "$(gettext 'Must be root to run this script')"
+	echo "$(gettext 'Root priviliges required.')"
 	exit $E_NOTROOT
 fi
 
@@ -54,9 +54,18 @@ else
 	orc=0
 fi
 
+## Distro specifc
+[ -e /etc/os-release ] && . /etc/os-release
+
+if [[ $NAME = Slackware ]] && [[ $(pidof init) ]] ; then
+	slack=1
+else
+	slack=0
+fi
+
 # Command List
-if [ $systd -eq 1 ]; then
-	#Systemd specific commands
+if [ "$systd" -eq 1 ]; then
+	# Systemd specific commands
 	get_time() {
 		timedatectl status
 	}
@@ -72,7 +81,7 @@ if [ $systd -eq 1 ]; then
 		timedatectl set-time "$1"
 	}
 else
-	#Generic Linux commands
+	# Generic Linux commands
 	get_time() {
 		echo -e "$(date) ($(date +%z))" $BOLD "<-Local time" $CLR "\n$(date -u) (UTC)" $BOLD "  <-UTC" $CLR
 	}
@@ -97,9 +106,48 @@ else
 	}
 fi
 
-# Menu
+# Distro / init specific commands
+set_ntp () {
+	# set_ntp $ntch
+	local ntch
+	ntch=$1
+	if [ "$systd" -eq 1 ]; then
+		timedatectl set-ntp $ntch
+	elif [ "$orc" -eq 1 ]; then
+		if [ -f /etc/init.d/ntpd ]; then
+			if [ "$ntch" -eq 1 ]; then
+				rc-update add ntpd
+			elif [ "$ntch" -eq 0 ]; then
+				rc-update del ntpd
+			else
+				echo "$(gettext 'Incorrect choice')"
+			fi
+		else
+			echo "$(gettext 'ntpd service not found')"
+		fi
+	elif [ "$slack" -eq 1 ]; then
+		if [ -f /etc/rc.d/rc.ntpd ]; then
+			if [ "$ntch" -eq 1 ]; then
+				chmod -v +x /etc/rc.d/rc.ntpd
+			elif [ "$ntch" -eq 0 ]; then
+				chmod -v -x /etc/rc.d/rc.ntpd
+			else
+				echo "$(gettext 'Incorrect choice')"
+			fi
+		else
+			echo "$(gettext '/etc/rc.d/rc.ntpd not found')"
+		fi
+	else
+               echo -e "$(gettext 'For this to work the ntp daemon (ntpd) needs to be installed.')\n$(gettext 'Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then enable the ntp daemon to start at boot.')\n$(gettext 'This feature is distribution specific and not handled by this script.')"
+	fi
+}
 
-ent=$(echo -e $BOLD "\n$(gettext 'Press Enter to continue...')" $CLR)
+pause_for_input () {
+	echo -e "$BOLD" "$(gettext 'Press Enter to continue...')" "$CLR"
+	read
+}
+
+# Menu
 
 while (true); do
     # Run infinte loop for menu, till the user quits.
@@ -134,7 +182,7 @@ while (true); do
       1)
       	echo -e $BOLD "$(gettext 'Current date and time')" $CLR 
 	get_time 
-	echo $ent; read
+	pause_for_input
 	;;
       
       2) 
@@ -143,7 +191,7 @@ while (true); do
       3) 
       	echo -ne $BOLD "$(gettext 'Enter the timezone (It should be like Continent/City):')" $CLR 
 	read -e tz; set_timezone $tz
-	echo $ent; read 
+	pause_for_input
 	;;
 
       4) 
@@ -153,37 +201,15 @@ while (true); do
 	else
 		echo "$(gettext '  ntpdate not found')"
 	fi
-	echo $ent ; read 
+	pause_for_input
 	;;
 
       5)
         # Enable the NTP daemon
-      	if [ $systd -eq 1 ]; then 
-		echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR
-		read ntch
-		timedatectl set-ntp $ntch
-	elif [ $orc -eq 1 ]; then
-		echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR
-		read ntch
-		if [ "$ntch" -eq 1 ]; then
-			if [ -f /etc/init.d/ntpd ]; then
-				rc-update add ntpd
-			else
-				echo "$(gettext 'ntpd service not found')"
-			fi
-		elif [ "$ntch" -eq 0 ]; then
-			if [ -f /etc/init.d/ntpd ]; then
-				rc-update del ntpd
-			else
-				echo "$(gettext 'ntpd service not found')"
-			fi
-		else
-			echo "$(gettext 'Incorrect choice')"
-		fi
-	else
-		echo -e "$(gettext 'For this to work the ntp daemon (ntpd) needs to be installed.')\n$(gettext 'Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then enable the ntp daemon to start at boot.')\n$(gettext 'This feature is distribution specific and not handled by this script.')"
-	fi
-	echo $ent; read 
+	echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR
+	read ntch
+	set_ntp "$ntch"
+	pause_for_input
 	;;
 
       6) 
@@ -192,7 +218,7 @@ while (true); do
 	if [[ "$rtcch" == "1" ]]; then 
 		$set_hwclock_local
 		# openrc specific
-		if [ $orc -eq 1 ]; then
+		if [ "$orc" -eq 1 ]; then
 			# modify /etc/conf.d/hwclock if it exists
 			if [ -e /etc/conf.d/hwclock ]; then
 				sed -i "s/clock=.*/clock=\"local\"/" /etc/conf.d/hwclock
@@ -202,7 +228,7 @@ while (true); do
 	elif [[ "$rtcch" == "0" ]]; then 
 		$set_hwclock_utc
 		# openrc specific
-		if [ $orc -eq 1 ]; then
+		if [ "$orc" -eq 1 ]; then
 			# modify /etc/conf.d/hwclock if it exists
 			if [ -e /etc/conf.d/hwclock ]; then
 				sed -i "s/clock=.*/clock=\"UTC\"/" /etc/conf.d/hwclock
@@ -212,32 +238,32 @@ while (true); do
 	else 
 		echo "$(gettext 'Incorrect choice entered.')" 
 	fi  
-	echo $ent; read 
+	pause_for_input
 	;;
 
       7) 
       	# Display complete info for hardware clock
 	/sbin/hwclock --debug 
-      	echo $ent; read 
+	pause_for_input
 	;;
 
       8)
         # Set system time from hardware clock
       	/sbin/hwclock --systohc
-	echo $ent; read 
+	pause_for_input
 	;;
       
       9)
         # Set hardware clock to system time.
       	/sbin/hwclock --hctosys
-	echo $ent; read 
+	pause_for_input
 	;;
 
       10)
         # Set time manually
       	echo -ne $Green "$(gettext 'Enter the time.')\n $(gettext 'The time may be specified in the format 2012-10-30 18:17:16')\n $(gettext 'Only hh:mm can also be used.')" $CLR "\n" $BOLD "$(gettext 'Enter the time:')" $CLR ; 
 	read -e time; set_time "$time" 
-	echo $ent; read 
+	pause_for_input
 	;;
 
       q) exit 0 ;;
@@ -248,7 +274,7 @@ while (true); do
 
       *) 
       	echo -e $Red "$(gettext 'Oops!!! Please a valid choice!')" $CLR
-        echo $ent ; read
+        pause_for_input
 	;;
     esac
     # Case ends
@@ -256,4 +282,3 @@ done
 # Menu loop ends
 
 exit 0
-

@@ -34,7 +34,7 @@ install: all
 	do \
 		lang=$$(echo $$file | $(SED) -e 's#.*/\([^/]\+\).mo#\1#'); \
 		$(INSTALL) -d $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES; \
-		$(INSTALL) -m644 $$file  $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/timeset.mo; \
+		$(INSTALL) -m644 $$file  $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(NAME).mo; \
 	done
 
 uninstall:
