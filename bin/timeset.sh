@@ -17,7 +17,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-ver=1.6 # Version
+#VER=1.6 # Version
 
 # Gettext internationalization
 export TEXTDOMAIN="timeset"
@@ -27,44 +27,64 @@ ROOT_UID=0 # Only users with $UID 0 have root privileges.
 E_NOTROOT=87 # Non-root exit error.
 
 #Colors
-Blue="\e[1;34m"
-Yel="\e[1;33m"
-Green="\e[1;32m"
-Red="\e[1;31m"
+BLUE="\e[1;34m"
+YELLOW="\e[1;33m"
+GREEN="\e[1;32m"
+RED="\e[1;31m"
 BOLD="\e[1m"
 CLR="\e[0m"
 
 # Run as root
 if [ "$UID" -ne "$ROOT_UID" ] ; then
-	echo "$(gettext 'Root priviliges required.')"
-	exit $E_NOTROOT
+	gettext 'Root priviliges required.'
+	exit "$E_NOTROOT"
 fi
 
 # Check if timedatectl is present and systemd is running
 if [[ -f /usr/bin/timedatectl ]] && [[ $(pidof systemd) ]]; then
-	systd=1
+	SYSTEMD=1
 else
-	systd=0
+	SYSTEMD=0
 fi
 
 # Check if openrc is running
 if [ -e /run/openrc ]; then
-	orc=1
+	OPENRC=1
 else
-	orc=0
+	OPENRC=0
 fi
 
 ## Distro specifc
 [ -e /etc/os-release ] && . /etc/os-release
 
 if [[ $NAME = Slackware ]] && [[ $(pidof init) ]] ; then
-	slack=1
+	SLACKWARE=1
 else
-	slack=0
+	SLACKWARE=0
 fi
 
+# Functions related to input and output
+pause_for_input () {
+	echo -e "$BOLD" "$(gettext 'Press Enter to continue...')" "$CLR"
+	read
+}
+
+msg () {
+	# msg $msg
+	local msg=$1
+	gettext "$msg"
+}
+
+msg_bold () {
+	# msg_bold $msg
+	local msg=$1
+	echo -ne "$BOLD"
+	gettext "$msg"
+	echo -e "$CLR"
+}
+
 # Command List
-if [ "$systd" -eq 1 ]; then
+if [ "$SYSTEMD" -eq 1 ]; then
 	# Systemd specific commands
 	get_time() {
 		timedatectl status
@@ -83,7 +103,7 @@ if [ "$systd" -eq 1 ]; then
 else
 	# Generic Linux commands
 	get_time() {
-		echo -e "$(date) ($(date +%z))" $BOLD "<-Local time" $CLR "\n$(date -u) (UTC)" $BOLD "  <-UTC" $CLR
+		echo -e "$(date) ($(date +%z))" "$BOLD" "<-Local time" "$CLR" "\n$(date -u) (UTC)" "$BOLD" "  <-UTC" "$CLR"
 	}
 	list_timezones() {
 		find -L /usr/share/zoneinfo/posix -mindepth 2 -type f -printf "%P\n" | sort | less
@@ -92,16 +112,34 @@ else
 		if [ -f "/usr/share/zoneinfo/posix/$1" ]; then
 			ln -sf "/usr/share/zoneinfo/posix/$1" /etc/localtime && echo "$(gettext 'Timezone set to') $1"
 		else
-			echo "$(gettext 'Wrong timezone entered.')"
+			msg 'Wrong timezone entered.'
 		fi
 	}
-	set_hwclock_local="hwclock --systohc --localtime"
-	set_hwclock_utc="hwclock --systohc --utc"
+	set_hwclock_local() {
+		hwclock --systohc --localtime
+		# openrc specific
+		if [ "$OPENRC" -eq 1 ]; then
+			# modify /etc/conf.d/hwclock if it exists
+			if [ -e /etc/conf.d/hwclock ]; then
+				sed -i "s/clock=.*/clock=\"local\"/" /etc/conf.d/hwclock
+			fi
+		fi
+	}
+	set_hwclock_utc() {
+		hwclock --systohc --utc
+		# openrc specific
+		if [ "$OPENRC" -eq 1 ]; then
+			# modify /etc/conf.d/hwclock if it exists
+			if [ -e /etc/conf.d/hwclock ]; then
+				sed -i "s/clock=.*/clock=\"UTC\"/" /etc/conf.d/hwclock
+			fi
+		fi
+	}
 	set_time() {
-		if [[ "$1" == [0-9]*:[0-9]* ]] || [[ "$1" == [0-9]*-[0-9]*-[0-9]* ]] || [[ "$1" == "[0-9]*-[0-9]*-[0-9]* [0-9]*:[0-9]*" ]] || [[ "$1" == "[0-9]*-[0-9]*-[0-9]* [0-9]*:[0-9]*:[0-9]*" ]]; then
+		if [[ $1 = [0-9]*:[0-9]* ]] || [[ $1 = [0-9]*-[0-9]*-[0-9]* ]] || [[ $1 = "[0-9]*-[0-9]*-[0-9]* [0-9]*:[0-9]*" ]] || [[ $1 = "[0-9]*-[0-9]*-[0-9]* [0-9]*:[0-9]*:[0-9]*" ]]; then
 			date -s "$1"
 		else
-			echo "$(gettext 'Time not entered correctly.')"
+			msg 'Time not entered correctly.'
 		fi
 	}
 fi
@@ -109,42 +147,36 @@ fi
 # Distro / init specific commands
 set_ntp () {
 	# set_ntp $ntch
-	local ntch
-	ntch=$1
-	if [ "$systd" -eq 1 ]; then
-		timedatectl set-ntp $ntch
-	elif [ "$orc" -eq 1 ]; then
+	local ntch=$1
+	if [ "$SYSTEMD" -eq 1 ]; then
+		timedatectl set-ntp "$ntch"
+	elif [ "$OPENRC" -eq 1 ]; then
 		if [ -f /etc/init.d/ntpd ]; then
 			if [ "$ntch" -eq 1 ]; then
 				rc-update add ntpd
 			elif [ "$ntch" -eq 0 ]; then
 				rc-update del ntpd
 			else
-				echo "$(gettext 'Incorrect choice')"
+				msg 'Incorrect choice.'
 			fi
 		else
-			echo "$(gettext 'ntpd service not found')"
+			msg 'ntpd service not found.'
 		fi
-	elif [ "$slack" -eq 1 ]; then
+	elif [ "$SLACKWARE" -eq 1 ]; then
 		if [ -f /etc/rc.d/rc.ntpd ]; then
 			if [ "$ntch" -eq 1 ]; then
 				chmod -v +x /etc/rc.d/rc.ntpd
 			elif [ "$ntch" -eq 0 ]; then
 				chmod -v -x /etc/rc.d/rc.ntpd
 			else
-				echo "$(gettext 'Incorrect choice')"
+				msg 'Incorrect choice.'
 			fi
 		else
-			echo "$(gettext '/etc/rc.d/rc.ntpd not found')"
+			msg '/etc/rc.d/rc.ntpd not found.'
 		fi
 	else
                echo -e "$(gettext 'For this to work the ntp daemon (ntpd) needs to be installed.')\n$(gettext 'Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then enable the ntp daemon to start at boot.')\n$(gettext 'This feature is distribution specific and not handled by this script.')"
 	fi
-}
-
-pause_for_input () {
-	echo -e "$BOLD" "$(gettext 'Press Enter to continue...')" "$CLR"
-	read
 }
 
 # Menu
@@ -153,23 +185,23 @@ while (true); do
     # Run infinte loop for menu, till the user quits.
     clear
     echo "----------------------------------------------------------------------"
-    echo -e $Blue " $(gettext 'TimeSet - Configure system date and time')" $CLR
+    echo -e "$BLUE" " $(gettext 'TimeSet - Configure system date and time')" "$CLR"
     echo "----------------------------------------------------------------------"
     echo 
-    echo -e $Yel "[1]" $CLR $BOLD "$(gettext 'Show current date and time configuration')" $CLR
-    echo -e $Yel "[2]" $CLR $BOLD "$(gettext 'Show known timezones (press q to return to menu)')" $CLR 
-    echo -e $Yel "[3]" $CLR $BOLD "$(gettext 'Set system timezone')" $CLR
-    echo -e $Yel "[4]" $CLR $BOLD "$(gettext 'Synchronize time from the network (NTP)')" $CLR
-    echo -e $Yel "[5]" $CLR $BOLD "$(gettext 'Choose whether NTP is enabled or not')" $CLR 
-    echo -e $Yel "[6]" $CLR $BOLD "$(gettext 'Control whether hardware clock is in UTC or local time')" $CLR
-    echo -e $Yel "[7]" $CLR $BOLD "$(gettext 'Show the time and settings for the hardware clock')" $CLR
-    echo -e $Yel "[8]" $CLR $BOLD "$(gettext 'Synchronize hardware clock to system time')" $CLR
-    echo -e $Yel "[9]" $CLR $BOLD "$(gettext 'Synchronize system time to hardware clock time')" $CLR
-    echo -e $Yel "[10]" $CLR$BOLD "$(gettext 'Set system time manually')" $CLR
+    echo -e "$YELLOW" [1] "$CLR $BOLD" "$(gettext 'Show current date and time configuration')" "$CLR"
+    echo -e "$YELLOW" [2] "$CLR $BOLD" "$(gettext 'Show known timezones (press q to return to menu)')" "$CLR"
+    echo -e "$YELLOW" [3] "$CLR $BOLD" "$(gettext 'Set system timezone')" "$CLR"
+    echo -e "$YELLOW" [4] "$CLR $BOLD" "$(gettext 'Synchronize time from the network (NTP)')" "$CLR"
+    echo -e "$YELLOW" [5] "$CLR $BOLD" "$(gettext 'Choose whether NTP is enabled or not')" "$CLR"
+    echo -e "$YELLOW" [6] "$CLR $BOLD" "$(gettext 'Control whether hardware clock is in UTC or local time')" "$CLR"
+    echo -e "$YELLOW" [7] "$CLR $BOLD" "$(gettext 'Show the time and settings for the hardware clock')" "$CLR"
+    echo -e "$YELLOW" [8] "$CLR $BOLD" "$(gettext 'Synchronize hardware clock to system time')" "$CLR"
+    echo -e "$YELLOW" [9] "$CLR $BOLD" "$(gettext 'Synchronize system time to hardware clock time')" "$CLR"
+    echo -e "$YELLOW" [10] "$CLR$BOLD" "$(gettext 'Set system time manually')" "$CLR"
     echo 
-    echo -e $Red "[q] $(gettext 'Exit/Quit')\n" $CLR
+    echo -e "$RED" "[q] $(gettext 'Exit/Quit')\n" "$CLR"
     echo "======================================================================"
-    echo -ne $Green "$(gettext 'Enter your choice') [1-10,q]:" $CLR
+    echo -ne "$GREEN" "$(gettext 'Enter your choice') [1-10,q]:" "$CLR"
     
     read -e choice
     if [ ! "$choice" ]; then 
@@ -180,105 +212,91 @@ while (true); do
 
     case $choice in
       1)
-      	echo -e $BOLD "$(gettext 'Current date and time')" $CLR 
+	msg_bold 'Current date and time'
 	get_time 
 	pause_for_input
 	;;
       
       2) 
-      	list_timezones ;;
+	list_timezones ;;
       
       3) 
-      	echo -ne $BOLD "$(gettext 'Enter the timezone (It should be like Continent/City):')" $CLR 
-	read -e tz; set_timezone $tz
+	msg_bold 'Enter the timezone (It should be like Continent/City): '
+	read -e tz; set_timezone "$tz"
 	pause_for_input
 	;;
 
       4) 
-      	echo -e $Green "$(gettext 'Synchronizing time from the network')\n $(gettext 'NTP should be installed for this to work.')\n" $CLR "$(gettext 'Please wait a few moments while the time is being synchronised...')"
+	echo -e "$GREEN" "$(gettext 'Synchronizing time from the network')\n $(gettext 'NTP should be installed for this to work.')\n" "$CLR" "$(gettext 'Please wait a few moments while the time is being synchronised...')"
 	if [ -e /usr/sbin/ntpdate ]; then
 		/usr/sbin/ntpdate -u 0.pool.ntp.org
 	else
-		echo "$(gettext '  ntpdate not found')"
+		msg '  ntpdate not found'
 	fi
 	pause_for_input
 	;;
 
       5)
-        # Enable the NTP daemon
-	echo -ne $Green "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" $CLR $BOLD "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" $CLR
+	# Enable the NTP daemon
+	echo -ne "$GREEN" "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" "$CLR $BOLD" "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" "$CLR"
 	read ntch
 	set_ntp "$ntch"
 	pause_for_input
 	;;
 
       6) 
-	echo -ne $BOLD "$(gettext 'Enter 0 to set hardware clock to UTC and 1 to set it to local time: ')" $CLR
-	read rtcch
-	if [[ "$rtcch" == "1" ]]; then 
+	msg_bold 'Enter 0 to set hardware clock to UTC and 1 to set it to local time: '
+	read hwc
+	if [[ $hwc = 1 ]]; then
 		$set_hwclock_local
-		# openrc specific
-		if [ "$orc" -eq 1 ]; then
-			# modify /etc/conf.d/hwclock if it exists
-			if [ -e /etc/conf.d/hwclock ]; then
-				sed -i "s/clock=.*/clock=\"local\"/" /etc/conf.d/hwclock
-			fi
-		fi
-		echo "$(gettext 'Hardware clock set to local time.')"
-	elif [[ "$rtcch" == "0" ]]; then 
+		msg 'Hardware clock set to local time.'
+	elif [[ $hwc = 0 ]]; then
 		$set_hwclock_utc
-		# openrc specific
-		if [ "$orc" -eq 1 ]; then
-			# modify /etc/conf.d/hwclock if it exists
-			if [ -e /etc/conf.d/hwclock ]; then
-				sed -i "s/clock=.*/clock=\"UTC\"/" /etc/conf.d/hwclock
-			fi
-		fi
-		echo "$(gettext 'Hardware clock set to UTC.')"
+		msg 'Hardware clock set to UTC.'
 	else 
-		echo "$(gettext 'Incorrect choice entered.')" 
+		msg 'Incorrect choice entered.'
 	fi  
 	pause_for_input
 	;;
 
       7) 
-      	# Display complete info for hardware clock
+	# Display complete info for hardware clock
 	/sbin/hwclock --debug 
 	pause_for_input
 	;;
 
       8)
-        # Set system time from hardware clock
-      	/sbin/hwclock --systohc
+	# Set system time from hardware clock
+	/sbin/hwclock --systohc
 	pause_for_input
 	;;
       
       9)
-        # Set hardware clock to system time.
-      	/sbin/hwclock --hctosys
+	# Set hardware clock to system time.
+	/sbin/hwclock --hctosys
 	pause_for_input
 	;;
 
       10)
-        # Set time manually
-      	echo -ne $Green "$(gettext 'Enter the time.')\n $(gettext 'The time may be specified in the format 2012-10-30 18:17:16')\n $(gettext 'Only hh:mm can also be used.')" $CLR "\n" $BOLD "$(gettext 'Enter the time:')" $CLR ; 
+	# Set time manually
+	echo -ne "$GREEN" "$(gettext 'Enter the time.')\n $(gettext 'The time may be specified in the format 2012-10-30 18:17:16')\n $(gettext 'Only hh:mm can also be used.')" "$CLR" "\n" "$BOLD" "$(gettext 'Enter the time:')" "$CLR"; 
 	read -e time; set_time "$time" 
 	pause_for_input
 	;;
 
       q) exit 0 ;;
 
-      0) 
-      	# Do nothing 
+      0)
+	# Do nothing
       	;;
 
       *) 
-      	echo -e $Red "$(gettext 'Oops!!! Please a valid choice!')" $CLR
-        pause_for_input
+	echo -e "$RED" "$(gettext 'Oops!!! Please a valid choice!')" "$CLR"
+	pause_for_input
 	;;
     esac
     # Case ends
 done
 # Menu loop ends
 
-exit 0
+exit $?
