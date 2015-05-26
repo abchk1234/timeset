@@ -34,9 +34,38 @@ RED="\e[1;31m"
 BOLD="\e[1m"
 CLR="\e[0m"
 
+# Functions related to input and output
+msg () {
+	# msg $msg
+	local msg=$1
+	gettext "$msg"
+	echo
+}
+
+msg_bold () {
+	# msg_bold $msg
+	local msg=$1
+	echo -ne "$BOLD"
+	gettext "$msg"
+	echo -e "$CLR"
+}
+
+msg_green () {
+	# msg_green $msg
+	local msg=$1
+	echo -ne "$GREEN"
+	gettext "$msg"
+	echo -e "$CLR"
+}
+
+pause_for_input () {
+	echo -ne "$BOLD" "$(gettext 'Press Enter to continue...')" "$CLR"
+	read
+}
+
 # Run as root
 if [ "$UID" -ne "$ROOT_UID" ] ; then
-	gettext 'Root priviliges required.'
+	msg 'Root priviliges required.'
 	exit "$E_NOTROOT"
 fi
 
@@ -54,7 +83,7 @@ else
 	OPENRC=0
 fi
 
-## Distro specifc
+# Distro specifc
 [ -e /etc/os-release ] && . /etc/os-release
 
 if [[ $NAME = Slackware ]] && [[ $(pidof init) ]] ; then
@@ -62,26 +91,6 @@ if [[ $NAME = Slackware ]] && [[ $(pidof init) ]] ; then
 else
 	SLACKWARE=0
 fi
-
-# Functions related to input and output
-pause_for_input () {
-	echo -e "$BOLD" "$(gettext 'Press Enter to continue...')" "$CLR"
-	read
-}
-
-msg () {
-	# msg $msg
-	local msg=$1
-	gettext "$msg"
-}
-
-msg_bold () {
-	# msg_bold $msg
-	local msg=$1
-	echo -ne "$BOLD"
-	gettext "$msg"
-	echo -e "$CLR"
-}
 
 # Command List
 if [ "$SYSTEMD" -eq 1 ]; then
@@ -175,7 +184,9 @@ set_ntp () {
 			msg '/etc/rc.d/rc.ntpd not found.'
 		fi
 	else
-               echo -e "$(gettext 'For this to work the ntp daemon (ntpd) needs to be installed.')\n$(gettext 'Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then enable the ntp daemon to start at boot.')\n$(gettext 'This feature is distribution specific and not handled by this script.')"
+		msg 'For this to work the ntp daemon (ntpd) needs to be installed.'
+		msg 'Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then enable the ntp daemon to start at boot.'
+		msg 'This feature is distribution specific and not handled by this script.'
 	fi
 }
 
@@ -212,7 +223,7 @@ while (true); do
 
     case $choice in
       1)
-	msg_bold 'Current date and time'
+	msg_bold 'Current date and time:'
 	get_time 
 	pause_for_input
 	;;
@@ -221,31 +232,34 @@ while (true); do
 	list_timezones ;;
       
       3) 
-	msg_bold 'Enter the timezone (It should be like Continent/City): '
+	echo -ne "$BOLD" "$(gettext 'Enter the timezone (It should be like Continent/City):')" "$CLR"
 	read -e tz; set_timezone "$tz"
 	pause_for_input
 	;;
 
       4) 
-	echo -e "$GREEN" "$(gettext 'Synchronizing time from the network')\n $(gettext 'NTP should be installed for this to work.')\n" "$CLR" "$(gettext 'Please wait a few moments while the time is being synchronised...')"
+	msg_green 'Synchronizing time from the network.'
+	msg_green 'NTP should be installed for this to work.'
+	msg 'Please wait a few moments while the time is being synchronised...'
 	if [ -e /usr/sbin/ntpdate ]; then
 		/usr/sbin/ntpdate -u 0.pool.ntp.org
 	else
-		msg '  ntpdate not found'
+		msg 'ntpdate not found.'; echo
 	fi
 	pause_for_input
 	;;
 
       5)
 	# Enable the NTP daemon
-	echo -ne "$GREEN" "$(gettext 'If NTP is enabled the system will periodically synchronize time from the network.')\n" "$CLR $BOLD" "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP') :" "$CLR"
+	msg_green 'If NTP is enabled the system will periodically synchronize time from the network.'
+	echo -ne "$BOLD" "$(gettext 'Enter 1 to enable NTP and 0 to disable NTP:')" "$CLR"
 	read ntch
 	set_ntp "$ntch"
 	pause_for_input
 	;;
 
       6) 
-	msg_bold 'Enter 0 to set hardware clock to UTC and 1 to set it to local time: '
+	echo -ne "$BOLD" "$(gettext 'Enter 0 to set hardware clock to UTC and 1 to set it to local time:')" "$CLR"
 	read hwc
 	if [[ $hwc = 1 ]]; then
 		$set_hwclock_local
@@ -279,7 +293,10 @@ while (true); do
 
       10)
 	# Set time manually
-	echo -ne "$GREEN" "$(gettext 'Enter the time.')\n $(gettext 'The time may be specified in the format 2012-10-30 18:17:16')\n $(gettext 'Only hh:mm can also be used.')" "$CLR" "\n" "$BOLD" "$(gettext 'Enter the time:')" "$CLR"; 
+	msg_green 'Enter the time.'
+	msg_green 'The time may be specified in the format 2012-10-30 18:17:16'
+	msg_green 'Only hh:mm can also be used.'
+	echo -ne "$BOLD" "$(gettext 'Enter the time: ')" "$CLR"
 	read -e time; set_time "$time" 
 	pause_for_input
 	;;
