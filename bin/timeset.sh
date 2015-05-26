@@ -295,7 +295,7 @@ while (true); do
 	msg_green 'Enter the time.'
 	msg_green 'The time may be specified in the format 2012-10-30 18:17:16'
 	msg_green 'Only hh:mm can also be used.'
-	echo -ne "$BOLD" "$(gettext 'Enter the time: ')" "$CLR"
+	echo -ne "$BOLD" "$(gettext 'Enter the time:')" "$CLR"
 	read -e time; set_time "$time" 
 	pause_for_input
 	;;

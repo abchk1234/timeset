@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NAME_PROJECT (version: XXX)\n"
 "Report-Msgid-Bugs-To: aaditya_gnulinux@zoho.com\n"
-"POT-Creation-Date: 2015-05-26 13:37+0530\n"
+"POT-Creation-Date: 2015-05-26 13:43+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: YOUR_NAME <ADR_MAIL>\n"
 "Language-Team: URL\n"
@@ -97,7 +97,7 @@ msgid "Enter 0 to set hardware clock to UTC and 1 to set it to local time:"
 msgstr "Controllare se Hardware Clock è in ora locale o non"
 
 #: timeset.sh:298
-msgid "Enter the time: "
+msgid "Enter the time:"
 msgstr ""
 
 #: timeset.sh:318
