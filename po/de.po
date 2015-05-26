@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NAME_PROJECT (version: XXX)\n"
 "Report-Msgid-Bugs-To: aaditya_gnulinux@zoho.com\n"
-"POT-Creation-Date: 2015-01-12 23:03+0530\n"
+"POT-Creation-Date: 2015-05-26 13:37+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: YOUR_NAME <ADR_MAIL>\n"
 "Language-Team: URL\n"
@@ -16,173 +16,133 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: timeset.sh:39
-msgid "Must be root to run this script"
-msgstr "Muss Wurzel dieses Skript ausgeführt werden"
-
-#: timeset.sh:67 timeset.sh:84
-msgid "Timezone set to"
-msgstr "Zeitzone einstellen"
-
-#: timeset.sh:86
-msgid "Wrong timezone entered."
-msgstr "Falsche Zeitzone eingetragen."
-
-#: timeset.sh:95
-msgid "Time not entered correctly."
-msgstr "Zeit nicht korrekt eingegeben."
-
-#: timeset.sh:102
+#: timeset.sh:59
 msgid "Press Enter to continue..."
 msgstr "Drücken Sie die Eingabetaste, um fortzufahren..."
 
-#: timeset.sh:108
+#: timeset.sh:102 timeset.sh:119
+msgid "Timezone set to"
+msgstr "Zeitzone einstellen"
+
+#: timeset.sh:197
 msgid "TimeSet - Configure system date and time"
 msgstr "TimeSet - Konfigurieren Sie das System Datum und Uhrzeit"
 
-#: timeset.sh:111
+#: timeset.sh:200
 msgid "Show current date and time configuration"
 msgstr "Anzeigen Aktuelles Datum und Uhrzeit Konfiguration"
 
-#: timeset.sh:112
+#: timeset.sh:201
 msgid "Show known timezones (press q to return to menu)"
 msgstr "Zeitzonen anzeigen Bekannte (drücken Sie q zurück zum Menü )"
 
-#: timeset.sh:113
+#: timeset.sh:202
 msgid "Set system timezone"
 msgstr "Set System Zeitzone"
 
-#: timeset.sh:114
+#: timeset.sh:203
 msgid "Synchronize time from the network (NTP)"
 msgstr "Synchronisieren Zeit von der Network (NTP)"
 
-#: timeset.sh:115
+#: timeset.sh:204
 msgid "Choose whether NTP is enabled or not"
 msgstr "Kontrollieren Sie, ob NTP benutzt wird oder nicht"
 
-#: timeset.sh:116
+#: timeset.sh:205
 msgid "Control whether hardware clock is in UTC or local time"
 msgstr "Steuern, ob Hardware-Uhr ist in Lokale Zeit oder nicht"
 
-#: timeset.sh:117
+#: timeset.sh:206
 msgid "Show the time and settings for the hardware clock"
 msgstr "Lesen Sie die Zeit von der Hardware-Uhr"
 
-#: timeset.sh:118
+#: timeset.sh:207
 msgid "Synchronize hardware clock to system time"
 msgstr "Synchronisieren Hardware-Uhr, um System Time"
 
-#: timeset.sh:119
+#: timeset.sh:208
 msgid "Synchronize system time to hardware clock time"
 msgstr "Synchronisieren der Systemzeit von Hardware-Uhr"
 
-#: timeset.sh:120
+#: timeset.sh:209
 msgid "Set system time manually"
 msgstr "Setzen der Systemzeit manuell"
 
-#: timeset.sh:122
+#: timeset.sh:210
+msgid "About"
+msgstr ""
+
+#: timeset.sh:212
 msgid "Exit/Quit"
 msgstr "Exit / Beenden"
 
-#: timeset.sh:124
+#: timeset.sh:214
 msgid "Enter your choice"
 msgstr "Geben Sie Ihre Wahl"
 
-#: timeset.sh:135
-msgid "Current date and time"
-msgstr "Anzeigen Aktuelles Datum und Uhrzeit Konfiguration"
-
-#: timeset.sh:144
+#: timeset.sh:234
 msgid "Enter the timezone (It should be like Continent/City):"
 msgstr "Geben Sie die Zeitzone (Es sollte so sein Kontinent / Stadt):"
 
-#: timeset.sh:150
-msgid "Synchronizing time from the network"
-msgstr "Synchronisieren Zeit von der Network"
-
-#: timeset.sh:150
-msgid "NTP should be installed for this to work."
-msgstr "NTP installiert, damit das funktioniert werden."
-
-#: timeset.sh:150
-msgid "Please wait a few moments while the time is being synchronised..."
-msgstr "Bitte warten Sie einen Moment, die Zeit synchronisiert wird..."
-
-#: timeset.sh:154
-msgid "  ntpdate not found"
-msgstr "  ntpdate nicht gefunden"
-
-#: timeset.sh:162 timeset.sh:166
-msgid ""
-"If NTP is enabled the system will periodically synchronize time from the "
-"network."
-msgstr ""
-"Wenn NTP aktiviert ist wird das System in regelmäßigen Abständen synchronisieren Zeit aus "
-"dem Netz"
-
-#: timeset.sh:162 timeset.sh:166
-msgid "Enter 1 to enable NTP and 0 to disable NTP"
+#: timeset.sh:254
+#, fuzzy
+msgid "Enter 1 to enable NTP and 0 to disable NTP:"
 msgstr "Geben Sie 1 ein NTP aktivieren und 0 bis NTP deaktivieren"
 
-#: timeset.sh:172 timeset.sh:178
-msgid "ntpd service not found"
-msgstr "ntpd-Dienst nicht gefunden"
-
-#: timeset.sh:181
-msgid "Incorrect choice"
-msgstr "Falsche Auswahl"
-
-#: timeset.sh:184
-msgid "For this to work the ntp daemon (ntpd) needs to be installed."
-msgstr "Damit dies der NTP Daemon (ntpd) arbeiten muss installiert werden."
-
-#: timeset.sh:184
-msgid ""
-"Furthur you may need need to edit /etc/ntp.conf (or similar) file, and then "
-"enable the ntp daemon to start at boot."
-msgstr ""
-
-#: timeset.sh:184
-msgid "This feature is distribution specific and not handled by this script."
-msgstr ""
-
-#: timeset.sh:190
-msgid "Enter 0 to set hardware clock to UTC and 1 to set it to local time: "
+#: timeset.sh:261
+#, fuzzy
+msgid "Enter 0 to set hardware clock to UTC and 1 to set it to local time:"
 msgstr ""
 "Geben Sie 0 ein, um Hardware-Uhr auf UTC eingestellt und 1 bis in die lokale "
 "Zeit gesetzt:"
 
-#: timeset.sh:201
-msgid "Hardware clock set to local time."
+#: timeset.sh:298
+msgid "Enter the time: "
 msgstr ""
 
-#: timeset.sh:211
-msgid "Hardware clock set to UTC."
-msgstr ""
-
-#: timeset.sh:213
-msgid "Incorrect choice entered."
-msgstr ""
-
-#: timeset.sh:238
-msgid "Enter the time."
-msgstr ""
-
-#: timeset.sh:238
-msgid "The time may be specified in the format 2012-10-30 18:17:16"
-msgstr ""
-
-#: timeset.sh:238
-msgid "Only hh:mm can also be used."
-msgstr ""
-
-#: timeset.sh:238
-msgid "Enter the time:"
-msgstr ""
-
-#: timeset.sh:250
+#: timeset.sh:318
 msgid "Oops!!! Please a valid choice!"
 msgstr ""
+
+#~ msgid "Must be root to run this script"
+#~ msgstr "Muss Wurzel dieses Skript ausgeführt werden"
+
+#~ msgid "Wrong timezone entered."
+#~ msgstr "Falsche Zeitzone eingetragen."
+
+#~ msgid "Time not entered correctly."
+#~ msgstr "Zeit nicht korrekt eingegeben."
+
+#~ msgid "Current date and time"
+#~ msgstr "Anzeigen Aktuelles Datum und Uhrzeit Konfiguration"
+
+#~ msgid "Synchronizing time from the network"
+#~ msgstr "Synchronisieren Zeit von der Network"
+
+#~ msgid "NTP should be installed for this to work."
+#~ msgstr "NTP installiert, damit das funktioniert werden."
+
+#~ msgid "Please wait a few moments while the time is being synchronised..."
+#~ msgstr "Bitte warten Sie einen Moment, die Zeit synchronisiert wird..."
+
+#~ msgid "  ntpdate not found"
+#~ msgstr "  ntpdate nicht gefunden"
+
+#~ msgid ""
+#~ "If NTP is enabled the system will periodically synchronize time from the "
+#~ "network."
+#~ msgstr ""
+#~ "Wenn NTP aktiviert ist wird das System in regelmäßigen Abständen "
+#~ "synchronisieren Zeit aus dem Netz"
+
+#~ msgid "ntpd service not found"
+#~ msgstr "ntpd-Dienst nicht gefunden"
+
+#~ msgid "Incorrect choice"
+#~ msgstr "Falsche Auswahl"
+
+#~ msgid "For this to work the ntp daemon (ntpd) needs to be installed."
+#~ msgstr "Damit dies der NTP Daemon (ntpd) arbeiten muss installiert werden."
 
 #, fuzzy
 #~ msgid "Press Enter..."
