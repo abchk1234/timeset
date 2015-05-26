@@ -222,7 +222,7 @@ while (true); do
 
     case $choice in
       1)
-	msg_bold 'Current date and time:'
+	msg_bold 'Current date and time'
 	get_time 
 	pause_for_input
 	;;
@@ -243,7 +243,7 @@ while (true); do
 	if [ -e /usr/sbin/ntpdate ]; then
 		/usr/sbin/ntpdate -u 0.pool.ntp.org
 	else
-		msg 'ntpdate not found.'; echo
+		msg 'ntpdate not found.'
 	fi
 	pause_for_input
 	;;
