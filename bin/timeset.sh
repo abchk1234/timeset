@@ -184,7 +184,8 @@ set_ntp () {
 
 # Add checks before executing
 if ! which gettext > /dev/null 2>&1; then
-	echo 'needed gettext not found'
+	echo 'needed gettext command not found'
+	exit 1
 fi
 
 # Run as root
