@@ -60,12 +60,6 @@ pause_for_input() {
 	read
 }
 
-# Run as root
-if [ "$EUID" -ne 0 ] ; then
-	msg 'Root priviliges required.'
-	exit 1
-fi
-
 # Check if timedatectl is present and systemd is running
 if [[ -f /usr/bin/timedatectl ]] && [[ $(pidof systemd) ]]; then
 	SYSTEMD=1
@@ -191,6 +185,12 @@ set_ntp () {
 # Add checks before executing
 if ! which gettext > /dev/null 2>&1; then
 	echo 'needed gettext not found'
+fi
+
+# Run as root
+if [ "$EUID" -ne 0 ] ; then
+	msg 'Root priviliges required.'
+	exit 1
 fi
 
 # Menu
