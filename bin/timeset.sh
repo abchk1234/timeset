@@ -188,8 +188,12 @@ set_ntp () {
 	fi
 }
 
-# Menu
+# Add checks before executing
+if ! which gettext > /dev/null 2>&1; then
+	echo 'needed gettext not found'
+fi
 
+# Menu
 while (true); do
     # Run infinte loop for menu, till the user quits.
     clear
