@@ -51,4 +51,4 @@ Run the script as root.
 
 https://classicforum.manjaro.org/index.php?topic=7067.0
 
-https://github.com/aadityabagga/timeset-gui
+https://github.com/abchk1234/timeset-gui
